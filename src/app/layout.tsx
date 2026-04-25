@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans, Nunito } from "next/font/google";
 import { Toaster } from "sonner";
+
+import { PlausibleAnalytics } from "@/components/brand/plausible";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -47,6 +49,7 @@ export default function RootLayout({
     <html lang="pl" className={cn(nunito.variable, dmSans.variable)}>
       <body className="bg-bg-base text-text-primary font-body min-h-screen antialiased">
         {children}
+        <PlausibleAnalytics />
         <Toaster
           position="bottom-right"
           richColors
