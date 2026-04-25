@@ -1,26 +1,459 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   YOKO & YOSHI — DESIGN TOKENS (Tailwind v4 @theme)
+   Source of truth: project/tokens.css from design handoff bundle.
+   ============================================================ */
+
+@theme {
+  /* SURFACES */
+  --color-bg-base: #fbf3e7;
+  --color-bg-surface: #ffffff;
+  --color-bg-elevated: #fef8ee;
+  --color-bg-warm: #f9ead3;
+
+  /* BORDERS */
+  --color-border-soft: #e5c89e;
+  --color-border-default: #d4a373;
+  --color-border-strong: #b07b43;
+
+  /* BRAND */
+  --color-primary: #f08c7a;
+  --color-primary-hover: #e67563;
+  --color-primary-soft: #fbd7cf;
+  --color-secondary: #f5a05a;
+  --color-secondary-soft: #fce2cb;
+  --color-accent-cyan: #3fb8c9;
+  --color-accent-cyan-soft: #cfeef2;
+  --color-accent-coral: #f47b6a;
+
+  /* TEXT */
+  --color-text-primary: #5c3a1e;
+  --color-text-secondary: #8a6b4a;
+  --color-text-muted: #b89876;
+  --color-text-inverse: #ffffff;
+
+  /* STATUS */
+  --color-success: #7cb342;
+  --color-warning: #f5a05a;
+  --color-danger: #e55934;
+
+  /* AFFILIATE CTA */
+  --color-cta-affiliate: #ff5a00;
+  --color-cta-affiliate-hover: #e64f00;
+
+  /* RADII */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+
+  /* SHADOWS — warm tan-tinted */
+  --shadow-sm: 0 2px 6px rgba(212, 163, 115, 0.18);
+  --shadow-md: 0 6px 18px rgba(212, 163, 115, 0.22);
+  --shadow-lg: 0 14px 36px rgba(212, 163, 115, 0.25);
+  --shadow-inset: inset 0 -3px 0 rgba(212, 163, 115, 0.18);
+
+  /* TYPOGRAPHY — fonts wired via next/font in src/app/layout.tsx */
+  --font-display: var(--font-nunito), system-ui, sans-serif;
+  --font-body: var(--font-dm-sans), system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+
+  --text-h1: clamp(2rem, 5vw, 3.5rem);
+  --text-h2: clamp(1.5rem, 3.5vw, 2.25rem);
+  --text-h3: clamp(1.25rem, 2.5vw, 1.5rem);
+  --text-h4: 1.125rem;
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --text-tiny: 0.75rem;
+
+  /* ANIMATIONS — design system motion library */
+  --animate-yy-spin: yy-spin 1.4s linear infinite;
+  --animate-yy-wag: yy-wag 1.6s ease-in-out infinite;
+  --animate-yy-bob: yy-bob 2.4s ease-in-out infinite;
+  --animate-yy-pulse-soft: yy-pulse-soft 2s ease-in-out infinite;
+  --animate-yy-fade-up: yy-fade-up 0.5s ease both;
+  --animate-yy-shimmer: yy-shimmer 1.6s linear infinite;
+  --animate-yy-drawer-in: yy-drawer-in 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+  --animate-yy-fade-in: yy-fade-in 0.22s ease;
 }
+
+/* ============================================================
+   SHADCN/UI COMPATIBILITY — map shadcn token names to brand tokens.
+   Components from shadcn use bg-background, text-foreground, bg-primary
+   etc. By mapping these names to our brand colors, every shadcn component
+   automatically renders branded without per-component overrides.
+   ============================================================ */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--color-bg-base);
+  --color-foreground: var(--color-text-primary);
+  --color-card: var(--color-bg-surface);
+  --color-card-foreground: var(--color-text-primary);
+  --color-popover: var(--color-bg-surface);
+  --color-popover-foreground: var(--color-text-primary);
+  --color-primary-foreground: var(--color-text-inverse);
+  --color-secondary-foreground: var(--color-text-primary);
+  --color-muted: var(--color-bg-elevated);
+  --color-muted-foreground: var(--color-text-secondary);
+  --color-accent: var(--color-bg-warm);
+  --color-accent-foreground: var(--color-text-primary);
+  --color-destructive: var(--color-danger);
+  --color-destructive-foreground: var(--color-text-inverse);
+  --color-border: var(--color-border-soft);
+  --color-input: var(--color-border-soft);
+  --color-ring: var(--color-accent-cyan);
+
+  /* charts (admin dashboard via recharts) */
+  --color-chart-1: var(--color-primary);
+  --color-chart-2: var(--color-secondary);
+  --color-chart-3: var(--color-accent-cyan);
+  --color-chart-4: var(--color-accent-coral);
+  --color-chart-5: var(--color-success);
+
+  /* sidebar (admin shell) */
+  --color-sidebar: var(--color-bg-elevated);
+  --color-sidebar-foreground: var(--color-text-primary);
+  --color-sidebar-primary: var(--color-primary);
+  --color-sidebar-primary-foreground: var(--color-text-inverse);
+  --color-sidebar-accent: var(--color-bg-warm);
+  --color-sidebar-accent-foreground: var(--color-text-primary);
+  --color-sidebar-border: var(--color-border-soft);
+  --color-sidebar-ring: var(--color-accent-cyan);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* shadcn base radius — its components reference --radius directly via cn() helpers */
+:root {
+  --radius: 16px;
+}
+
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+
+@keyframes yy-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes yy-wag {
+  0%,
+  100% {
+    transform: rotate(-6deg);
+  }
+  50% {
+    transform: rotate(6deg);
+  }
+}
+@keyframes yy-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@keyframes yy-pulse-soft {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+@keyframes yy-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes yy-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+@keyframes yy-drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes yy-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ============================================================
+   BASE LAYER — typography, focus, selection
+   ============================================================ */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    background-color: var(--color-bg-base);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern", "liga";
+    font-variant-ligatures: common-ligatures;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+  }
+  h1 {
+    font-size: var(--text-h1);
+    font-weight: 800;
+  }
+  h2 {
+    font-size: var(--text-h2);
+  }
+  h3 {
+    font-size: var(--text-h3);
+  }
+  h4 {
+    font-size: var(--text-h4);
+  }
+
+  ::selection {
+    background: var(--color-primary-soft);
+    color: var(--color-text-primary);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent-cyan);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* MDX prose — articles and breed pillars */
+  .prose-yy {
+    color: var(--color-text-primary);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+  .prose-yy h2 {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .prose-yy h3 {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose-yy p,
+  .prose-yy ul,
+  .prose-yy ol {
+    margin-bottom: 1.25rem;
+  }
+  .prose-yy a {
+    color: var(--color-accent-cyan);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-yy a:hover {
+    color: var(--color-primary);
+  }
+  .prose-yy ul,
+  .prose-yy ol {
+    padding-left: 1.5rem;
+  }
+  .prose-yy ul li {
+    list-style: disc;
+    margin-bottom: 0.5rem;
+  }
+  .prose-yy blockquote {
+    border-left: 3px dashed var(--color-border-default);
+    padding-left: 1rem;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    margin: 1.5rem 0;
+  }
+  .prose-yy code {
+    background: var(--color-bg-warm);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+}
+
+/* ============================================================
+   UTILITY LAYER — brand-specific utilities
+   ============================================================ */
+
+@layer utilities {
+  .num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .amp {
+    color: var(--color-primary);
+    font-family: var(--font-display);
+    font-weight: 800;
+  }
+
+  .photo-placeholder {
+    background: repeating-linear-gradient(
+      135deg,
+      var(--color-bg-warm) 0 14px,
+      var(--color-bg-elevated) 14px 28px
+    );
+    border: 2px dashed var(--color-border-default);
+    border-radius: var(--radius-lg);
+    display: grid;
+    place-items: center;
+    color: var(--color-text-muted);
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    position: relative;
+  }
+  .photo-placeholder::before {
+    content: "📷  Tu wstaw zdjęcie";
+    background: rgba(255, 255, 255, 0.85);
+    padding: 8px 14px;
+    border-radius: var(--radius-full);
+    border: 1.5px solid var(--color-border-soft);
+  }
+
+  .dashed-brand {
+    border: 2px dashed var(--color-border-default);
+  }
+
+  .yy-link-paw {
+    position: relative;
+  }
+  .yy-link-paw::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 2px;
+    background: var(--color-accent-cyan);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  .yy-link-paw:hover::after {
+    transform: scaleX(1);
+  }
+
+  .yy-shimmer {
+    background: linear-gradient(
+      90deg,
+      var(--color-bg-warm) 0%,
+      var(--color-bg-elevated) 50%,
+      var(--color-bg-warm) 100%
+    );
+    background-size: 200% 100%;
+    animation: var(--animate-yy-shimmer);
+  }
+
+  /* Component hover/transition helpers — used on interactive cards/buttons */
+  .yy-product-card {
+    transition:
+      transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.22s ease,
+      border-color 0.22s ease;
+  }
+  .yy-product-card:hover {
+    transform: translateY(-4px) rotate(-0.4deg);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-border-default);
+  }
+
+  .yy-btn-anim {
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      background 0.15s ease;
+  }
+  .yy-btn-anim:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+  }
+  .yy-btn-anim:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .yy-tile-anim {
+    transition:
+      transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+      border-color 0.25s ease,
+      background 0.25s ease;
+  }
+  .yy-tile-anim:hover {
+    transform: translateY(-3px);
+    border-style: solid;
+    border-color: var(--color-border-default);
+  }
+
+  .yy-chip {
+    transition:
+      background 0.15s ease,
+      transform 0.15s ease,
+      border-color 0.15s ease;
+  }
+  .yy-chip:hover {
+    transform: translateY(-1px);
+    border-color: var(--color-accent-cyan);
+  }
+
+  .yy-mascot-hover {
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .yy-mascot-hover:hover {
+    transform: scale(1.06) rotate(-3deg);
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

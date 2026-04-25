@@ -1,0 +1,10 @@
+node_modules
+.next
+build
+out
+public
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+src/components/ui
+supabase/migrations

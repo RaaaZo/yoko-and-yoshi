@@ -1,103 +1,86 @@
 import Image from "next/image";
 
+import { YokoFace, YoshiFace, PawPrint } from "@/components/brand/icons";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+
+/**
+ * Phase 1 placeholder homepage — proves the design system pipeline:
+ * fonts, brand tokens, mascot SVGs, button variants. Phase 2 replaces
+ * this with the full template from `screen-homepage.jsx`.
+ */
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <main className="bg-bg-base text-text-primary min-h-screen">
+      <section className="mx-auto max-w-5xl px-6 py-20">
+        <div className="flex items-center gap-6">
+          <Image
+            src="/brand/logo-primary.png"
+            alt="Yoko & Yoshi"
+            width={120}
+            height={120}
+            priority
+          />
+          <div>
+            <p className="text-text-muted text-xs font-semibold tracking-[0.18em] uppercase">
+              Foundation deployed · phase 1
+            </p>
+            <h1 className="mt-2 text-5xl">
+              Yoko <span className="amp">&</span> Yoshi
+            </h1>
+            <p className="text-text-secondary mt-3 max-w-xl text-lg">
+              Sklep #1 dla shibowiarzy w Polsce — i wszystko poza miską dla
+              psów, kotów, gryzoni, ptaków, ryb i gadów.
+            </p>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
+          <div className="bg-bg-surface border-border-soft rounded-lg border p-8 shadow-sm">
+            <div className="mb-4 flex items-center gap-3">
+              <YokoFace size={56} />
+              <h3 className="text-secondary">Yoko</h3>
+            </div>
+            <p className="text-text-secondary">
+              Rudy shiba · niebieska obroża. Energiczny, ciekawski. Rekomenduje
+              zabawki, smycze, wszystko co wymaga ruchu.
+            </p>
+          </div>
+          <div className="bg-bg-surface border-border-soft rounded-lg border p-8 shadow-sm">
+            <div className="mb-4 flex items-center gap-3">
+              <YoshiFace size={56} />
+              <h3 className="text-accent-coral">Yoshi</h3>
+            </div>
+            <p className="text-text-secondary">
+              Kremowy shiba · koralowa obroża. Łagodny, marzycielski.
+              Rekomenduje karmę, posłania, pielęgnację.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-12 flex flex-wrap items-center gap-3">
+          <Badge tone="secondary">
+            <PawPrint size={12} />
+            Akcesoria · zabawki · pielęgnacja
+          </Badge>
+          <Badge tone="cyan">SSR + Tailwind v4 + shadcn</Badge>
+          <Badge tone="success">Phase 1 OK</Badge>
+        </div>
+
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <Button variant="primary" size="lg">
+            Odkryj produkty
+          </Button>
+          <Button variant="secondary" size="lg">
+            Poznaj nas
+          </Button>
+          <Button variant="affiliate" size="lg">
+            Zobacz na Allegro
+          </Button>
+          <Button variant="ghost">Filtruj</Button>
+          <Button variant="link">Dowiedz się więcej →</Button>
+        </div>
+      </section>
+    </main>
   );
 }
