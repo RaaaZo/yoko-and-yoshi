@@ -20,7 +20,10 @@ export async function POST(req: Request) {
   const auth = req.headers.get("authorization");
   const expected = `Bearer ${process.env.REVALIDATE_TOKEN ?? ""}`;
   if (!process.env.REVALIDATE_TOKEN || auth !== expected) {
-    return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { ok: false, error: "unauthorized" },
+      { status: 401 },
+    );
   }
 
   const supabase = getSupabaseAdminClient();

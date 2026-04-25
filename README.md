@@ -87,7 +87,7 @@ supabase/
   appears only on interactive leaves (forms, dialogs, the mobile menu,
   the Allegro CTA's click handler).
 - **No brand names on the public site (MVP).** The `ProductCard` kicker
-  renders the *item type* (Szarpaki, Piłki, …) rather than a brand. The
+  renders the _item type_ (Szarpaki, Piłki, …) rather than a brand. The
   `brands` table stays in the schema for the future moment when Yoko &
   Yoshi ships its own-branded SKUs.
 - **Item types are an orthogonal taxonomy** to nested categories. They

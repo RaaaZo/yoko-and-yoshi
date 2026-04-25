@@ -71,9 +71,7 @@ export async function syncStaleProducts(
   staleHours = 24,
 ): Promise<{ synced: number; failed: number }> {
   const supabase = getSupabaseAdminClient();
-  const since = new Date(
-    Date.now() - staleHours * 3600 * 1000,
-  ).toISOString();
+  const since = new Date(Date.now() - staleHours * 3600 * 1000).toISOString();
 
   const { data: stale } = await supabase
     .from("products")

@@ -17,7 +17,7 @@ export default async function AdminLoginPage({
 }) {
   const sp = await searchParams;
   return (
-    <main className="bg-bg-base flex min-h-screen items-center justify-center px-4">
+    <main className="bg-bg-base flex min-h-screen items-center justify-center px-4 py-10">
       <div className="bg-bg-surface border-border-soft w-full max-w-md rounded-lg border-[1.5px] p-8 shadow-md">
         <div className="mb-6 flex items-center gap-3">
           <Image

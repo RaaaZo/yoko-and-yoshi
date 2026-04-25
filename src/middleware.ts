@@ -14,12 +14,12 @@ import { updateSupabaseSession } from "@/lib/supabase/middleware";
  * once the admin redirects module ships and a KV cache is wired.
  */
 export async function middleware(request: NextRequest) {
-  const { response, user, supabase } = await updateSupabaseSession(request);
-
   const url = request.nextUrl;
   const pathname = url.pathname;
   const isAdminRoute = pathname.startsWith("/admin");
   const isAdminLogin = pathname === "/admin/login";
+
+  const { response, user, supabase } = await updateSupabaseSession(request);
 
   if (isAdminRoute) {
     if (!user && !isAdminLogin) {
@@ -62,7 +62,13 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Security headers — applied to ALL responses
+  return applySecurityHeaders(response, isAdminRoute);
+}
+
+function applySecurityHeaders(
+  response: NextResponse,
+  isAdminRoute: boolean,
+): NextResponse {
   response.headers.set(
     "Strict-Transport-Security",
     "max-age=63072000; includeSubDomains; preload",
@@ -74,11 +80,9 @@ export async function middleware(request: NextRequest) {
     "Permissions-Policy",
     "camera=(), microphone=(), geolocation=(), interest-cohort=()",
   );
-
   if (isAdminRoute) {
     response.headers.set("X-Robots-Tag", "noindex, nofollow");
   }
-
   return response;
 }
 
