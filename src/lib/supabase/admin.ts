@@ -2,8 +2,6 @@ import "server-only";
 
 import { createClient } from "@supabase/supabase-js";
 
-import type { Database } from "@/types/database";
-
 /**
  * Service-role Supabase client. BYPASSES RLS.
  *
@@ -14,7 +12,8 @@ import type { Database } from "@/types/database";
  * NEVER import from a Client Component or expose its operations to the client.
  * `import 'server-only'` above turns any accidental client import into a build error.
  */
-let cached: ReturnType<typeof createClient<Database>> | null = null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let cached: ReturnType<typeof createClient<any>> | null = null;
 
 export function getSupabaseAdminClient() {
   if (cached) return cached;
@@ -28,7 +27,8 @@ export function getSupabaseAdminClient() {
     );
   }
 
-  cached = createClient<Database>(url, serviceRoleKey, {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  cached = createClient<any>(url, serviceRoleKey, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 

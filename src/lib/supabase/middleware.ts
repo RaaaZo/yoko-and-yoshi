@@ -2,8 +2,6 @@ import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import type { Database } from "@/types/database";
-
 type CookieToSet = { name: string; value: string; options: CookieOptions };
 
 /**
@@ -16,7 +14,8 @@ type CookieToSet = { name: string; value: string; options: CookieOptions };
 export async function updateSupabaseSession(request: NextRequest) {
   let response = NextResponse.next({ request });
 
-  const supabase = createServerClient<Database>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const supabase = createServerClient<any>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {

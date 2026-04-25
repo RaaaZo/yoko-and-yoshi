@@ -1,9 +1,11 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-import type { Database } from "@/types/database";
-
 type CookieToSet = { name: string; value: string; options: CookieOptions };
+
+// NOTE: clients are intentionally untyped while the Database stub is in place
+// (see src/types/database.ts). Once `pnpm db:types` runs against the live
+// project, add the <Database> generic back to enforce column-level typing.
 
 /**
  * Supabase client for Server Components, Route Handlers, and Server Actions.
@@ -12,7 +14,8 @@ type CookieToSet = { name: string; value: string; options: CookieOptions };
 export async function getSupabaseServerClient() {
   const cookieStore = await cookies();
 
-  return createServerClient<Database>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return createServerClient<any>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
