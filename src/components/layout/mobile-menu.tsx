@@ -31,7 +31,7 @@ const WORLD_LINKS = [
 
 const ABOUT_LINKS = [
   ["Kim jesteśmy", "/o-nas"],
-  ["Yoko & Yoshi", "/o-nas#maskotki"],
+  ["Yoko & Yoshi", "/o-nas#zwierzaki"],
   ["Kontakt", "/kontakt"],
 ];
 

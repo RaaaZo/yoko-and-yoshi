@@ -1,5 +1,4 @@
-import Image from "next/image";
-
+import { YokoYoshiTogether } from "@/components/brand/icons";
 import { MascotCallout } from "@/components/brand/mascot-callout";
 import { PawDivider } from "@/components/brand/paw-divider";
 import { Badge } from "@/components/ui/badge";
@@ -15,29 +14,45 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <article className="px-6 py-12">
-      <div className="mx-auto max-w-3xl">
-        <Badge tone="secondary">O nas</Badge>
-        <h1 className="mt-4 mb-4 text-[3rem] leading-tight">
-          Cześć — to my, <span className="amp">&</span> nasze shiby.
-        </h1>
-        <p className="text-text-secondary mb-8 text-lg leading-relaxed">
-          Yoko & Yoshi to autorski projekt, który polecił sam siebie. Sklep
-          stworzony przez opiekunów dwóch shib, którzy przetestowali tysiąc
-          produktów i wybrali tylko te dobre. Jeśli kupisz coś przez nasz link,
-          dostaniemy małą prowizję — to jak postawienie nam kawy. Cena dla
-          Ciebie się nie zmienia.
-        </p>
-
-        <div id="maskotki" className="grid gap-5 md:grid-cols-2">
-          <MascotCallout speaker="yoko" title="Yoko — rudy szef ekipy">
-            Energiczny, ciekawski, ekspresyjny. Rekomenduje aktywności, zabawki
-            i wszystko, co wymaga ruchu.
-          </MascotCallout>
-          <MascotCallout speaker="yoshi" title="Yoshi — kremowy filozof">
-            Łagodny, marzycielski, spokojny. Rekomenduje karmę, posłania,
-            pielęgnację i wszystko, co wymaga troski.
-          </MascotCallout>
+      <div className="mx-auto max-w-5xl">
+        <div className="grid items-center gap-10 md:grid-cols-[1.1fr_1fr]">
+          <div>
+            <Badge tone="secondary">O nas</Badge>
+            <h1 className="mt-4 mb-4 text-[3rem] leading-tight">
+              Cześć — to my, <span className="amp">&</span> nasze shiby.
+            </h1>
+            <p className="text-text-secondary mb-4 text-lg leading-relaxed">
+              Yoko & Yoshi to autorski projekt, który polecił sam siebie. Sklep
+              stworzony przez opiekunów dwóch shib, którzy przetestowali tysiąc
+              produktów i wybrali tylko te dobre. Jeśli kupisz coś przez nasz
+              link, dostaniemy małą prowizję — to jak postawienie nam kawy. Cena
+              dla Ciebie się nie zmienia.
+            </p>
+          </div>
+          <div
+            className="grid place-items-center rounded-xl p-6"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 40%, var(--color-primary-soft), var(--color-bg-warm) 70%)",
+            }}
+          >
+            <YokoYoshiTogether variant="sitting-relaxed" size={400} priority />
+          </div>
         </div>
+
+        <section id="zwierzaki" className="mt-16">
+          <h2 className="mb-5">Poznaj zespół</h2>
+          <div className="grid gap-5 md:grid-cols-2">
+            <MascotCallout speaker="yoko" title="Yoko — rudy szef ekipy">
+              Energiczny, ciekawski, ekspresyjny. Rekomenduje aktywności,
+              zabawki i wszystko, co wymaga ruchu.
+            </MascotCallout>
+            <MascotCallout speaker="yoshi" title="Yoshi — kremowy filozof">
+              Łagodny, marzycielski, spokojny. Rekomenduje karmę, posłania,
+              pielęgnację i wszystko, co wymaga troski.
+            </MascotCallout>
+          </div>
+        </section>
 
         <PawDivider />
 
@@ -64,13 +79,9 @@ export default function AboutPage() {
 
         <PawDivider />
 
-        <Image
-          src="/brand/logo-playing.png"
-          alt="Yoko i Yoshi"
-          width={520}
-          height={520}
-          className="mx-auto"
-        />
+        <div className="mx-auto grid place-items-center">
+          <YokoYoshiTogether variant="playful-01" size={520} />
+        </div>
       </div>
     </article>
   );

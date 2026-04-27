@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 
 import { Breadcrumbs } from "@/components/brand/breadcrumbs";
+import { YokoSitting } from "@/components/brand/icons";
 import { PawDivider } from "@/components/brand/paw-divider";
-import { PhotoPlaceholder } from "@/components/brand/photo-placeholder";
 import { Badge } from "@/components/ui/badge";
 import { getBreedBySlug } from "@/lib/db/queries/content";
 import type { Metadata } from "next";
@@ -49,8 +49,10 @@ export default async function BreedPage({ params }: { params: Params }) {
 
         <h1 className="mb-4 text-[3rem] leading-tight">{data.name}</h1>
 
-        <div className="border-border-default mb-10 grid gap-8 rounded-xl border-2 border-dashed p-8 md:grid-cols-[1fr_1fr]">
-          <PhotoPlaceholder aspectRatio="4 / 3" />
+        <div className="border-border-default mb-10 grid items-center gap-8 rounded-xl border-2 border-dashed p-8 md:grid-cols-[1fr_1fr]">
+          <div className="grid place-items-center">
+            <YokoSitting size={420} priority />
+          </div>
           {Object.keys(data.quick_facts).length > 0 && (
             <dl className="grid grid-cols-2 gap-4">
               {Object.entries(data.quick_facts).map(([key, value]) => (

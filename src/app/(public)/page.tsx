@@ -1,10 +1,14 @@
 import Link from "next/link";
 import { Suspense } from "react";
 
-import { Heart, PawPrint, Sparkle } from "@/components/brand/icons";
+import {
+  PawPrint,
+  Sparkle,
+  YokoSitting,
+  YokoYoshiTogether,
+} from "@/components/brand/icons";
 import { NewsletterBox } from "@/components/brand/newsletter-box";
 import { PawDivider } from "@/components/brand/paw-divider";
-import { PhotoPlaceholder } from "@/components/brand/photo-placeholder";
 import { ItemTile } from "@/components/product/item-tile";
 import { ProductCard } from "@/components/product/product-card";
 import { Badge } from "@/components/ui/badge";
@@ -74,20 +78,14 @@ function Hero() {
           </div>
         </div>
         <div className="relative">
-          <div className="relative aspect-[1/0.95] p-6">
-            <PhotoPlaceholder aspectRatio="1 / 0.95" />
-            <div className="absolute top-4 right-5">
+          <div className="relative grid place-items-center">
+            <YokoYoshiTogether variant="sitting-formal" size={460} priority />
+            <div className="absolute top-4 right-5" aria-hidden>
               <Sparkle size={26} />
             </div>
-            <div className="absolute bottom-7 left-5 opacity-60">
+            <div className="absolute bottom-10 left-2 opacity-50" aria-hidden>
               <PawPrint size={28} color="var(--color-border-default)" />
             </div>
-            <div className="absolute top-10 left-7 opacity-50">
-              <Heart size={22} />
-            </div>
-          </div>
-          <div className="bg-bg-surface border-border-soft text-text-secondary absolute -bottom-2 left-6 rounded-full border-[1.5px] px-3.5 py-1.5 text-[0.78rem]">
-            📷 zdjęcia Yoko & Yoshi — dostarczy Mateusz
           </div>
         </div>
       </div>
@@ -218,8 +216,8 @@ function ShibaPillar() {
             "linear-gradient(135deg, var(--color-secondary-soft) 0%, var(--color-primary-soft) 100%)",
         }}
       >
-        <div className="relative aspect-square">
-          <PhotoPlaceholder aspectRatio="1" />
+        <div className="relative grid place-items-center">
+          <YokoSitting size={400} />
         </div>
         <div>
           <Badge tone="primary">⭐ Specjalność firmy</Badge>
