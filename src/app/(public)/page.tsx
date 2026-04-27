@@ -117,7 +117,7 @@ async function ItemTilesSection() {
           {items.map((it) => (
             <ItemTile
               key={it.id}
-              href={`/szukaj?type=${it.slug}`}
+              href={`/typ/${it.slug}`}
               icon={it.icon_emoji ?? "·"}
               label={it.name}
               count={it.count_cache > 0 ? it.count_cache : undefined}
@@ -157,9 +157,7 @@ async function RecommendedSection() {
             inline
           />
           <Button asChild variant="link">
-            <Link href="/szukaj?recommended=1">
-              Zobacz wszystkie polecane →
-            </Link>
+            <Link href="/promocje">Zobacz wszystkie polecane →</Link>
           </Button>
         </div>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
@@ -241,7 +239,7 @@ function ShibaPillar() {
               <Link href="/poradnik/rasy/shiba-inu">Hub rasowy: shiba inu</Link>
             </Button>
             <Button asChild variant="ghost">
-              <Link href="/szukaj?for=shiba">Akcesoria dla shib</Link>
+              <Link href="/poradnik/rasy/shiba-inu">Polecane akcesoria</Link>
             </Button>
           </div>
           <div className="mt-6 flex flex-wrap gap-7">

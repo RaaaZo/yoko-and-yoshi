@@ -5,9 +5,10 @@ const COLUMNS: Array<{ heading: string; links: Array<[string, string]> }> = [
   {
     heading: "Sklep",
     links: [
-      ["Wszystkie kategorie", "/szukaj"],
+      ["Psy", "/zwierzaki/psy"],
+      ["Koty", "/zwierzaki/koty"],
+      ["Inne zwierzaki", "/zwierzaki/gryzonie"],
       ["Promocje", "/promocje"],
-      ["Bestsellery", "/szukaj?bestsellers=1"],
     ],
   },
   {

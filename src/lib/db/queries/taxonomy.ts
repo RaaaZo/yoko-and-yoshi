@@ -96,6 +96,58 @@ export async function listCategoriesForSpecies(
   return (data ?? []) as unknown as Category[];
 }
 
+/**
+ * Direct children of a category. Pass parentId=null to get top-level
+ * categories of a species.
+ */
+export async function listSubcategories(
+  speciesId: string,
+  parentId: string | null,
+): Promise<Category[]> {
+  const supabase = await getSupabaseServerClient();
+  let q = supabase
+    .from("categories")
+    .select("*")
+    .eq("species_id", speciesId)
+    .eq("published", true)
+    .order("sort_order");
+  q = parentId === null ? q.is("parent_id", null) : q.eq("parent_id", parentId);
+  const { data, error } = await q;
+  if (error) {
+    logger.error(
+      { err: error, speciesId, parentId },
+      "listSubcategories failed",
+    );
+    return [];
+  }
+  return (data ?? []) as unknown as Category[];
+}
+
+/**
+ * All published category paths — used by sitemap and
+ * generateStaticParams for the catch-all route.
+ */
+export async function listAllCategoryPaths(): Promise<
+  Array<{ path: string; updated_at: string | null }>
+> {
+  const supabase = await getSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("categories")
+    .select("path_cache, updated_at")
+    .eq("published", true)
+    .not("path_cache", "is", null)
+    .order("path_cache");
+  if (error) {
+    logger.error({ err: error }, "listAllCategoryPaths failed");
+    return [];
+  }
+  type Row = { path_cache: string; updated_at: string | null };
+  return ((data ?? []) as unknown as Row[]).map((r) => ({
+    path: r.path_cache,
+    updated_at: r.updated_at,
+  }));
+}
+
 // See note in queries/products.ts about why unstable_cache is bypassed here.
 export const getCachedItemTypes = listItemTypes;
 export const getCachedSpecies = listSpecies;

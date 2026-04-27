@@ -34,6 +34,9 @@ export type Category = {
   name: string;
   description: string | null;
   hero_image_url: string | null;
+  seo_title: string | null;
+  seo_description: string | null;
+  og_image_url: string | null;
   path_cache: string | null;
   sort_order: number;
   published: boolean;

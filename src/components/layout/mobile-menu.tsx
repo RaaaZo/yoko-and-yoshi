@@ -13,20 +13,20 @@ import {
 } from "@/components/ui/sheet";
 
 const SHOP_LINKS = [
-  ["🦴 Szarpaki & gryzaki", "/szukaj?type=szarpaki-gryzaki"],
-  ["🎾 Piłki", "/szukaj?type=pilki"],
-  ["✂️ Trymery & szczotki", "/szukaj?type=trymery-szczotki"],
-  ["🪢 Smycze & obroże", "/szukaj?type=smycze-obroze"],
-  ["🛏️ Posłania", "/szukaj?type=poslania"],
-  ["🥣 Miski & poidła", "/szukaj?type=miski-poidla"],
-  ["🎒 Transportery", "/szukaj?type=transportery"],
-  ["🧴 Pielęgnacja", "/szukaj?type=pielegnacja"],
+  ["🦴 Szarpaki & gryzaki", "/typ/szarpaki-gryzaki"],
+  ["🎾 Piłki", "/typ/pilki"],
+  ["✂️ Trymery & szczotki", "/typ/trymery-szczotki"],
+  ["🪢 Smycze & obroże", "/typ/smycze-obroze"],
+  ["🛏️ Posłania", "/typ/poslania"],
+  ["🥣 Miski & poidła", "/typ/miski-poidla"],
+  ["🎒 Transportery", "/typ/transportery"],
+  ["🧴 Pielęgnacja", "/typ/pielegnacja"],
 ];
 
 const WORLD_LINKS = [
   ["🐕 Hub rasowy: Shiba Inu", "/poradnik/rasy/shiba-inu"],
   ["📖 Wszystkie poradniki", "/poradnik"],
-  ["💛 Bestsellery dla shib", "/szukaj?for=shiba"],
+  ["💛 Bestsellery dla shib", "/poradnik/rasy/shiba-inu"],
 ];
 
 const ABOUT_LINKS = [

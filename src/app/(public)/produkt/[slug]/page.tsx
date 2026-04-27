@@ -80,7 +80,7 @@ export default async function ProductPage({ params }: { params: Params }) {
               ? [
                   {
                     label: itemKicker,
-                    href: `/szukaj?type=${product.item_types?.[0]?.slug}`,
+                    href: `/typ/${product.item_types?.[0]?.slug}`,
                   },
                 ]
               : []),

@@ -5,15 +5,11 @@ import { Heart, Sparkle } from "@/components/brand/icons";
 import { MobileMenuTrigger } from "./mobile-menu";
 
 const NAV_LINKS: Array<{ label: string; href: string; bold?: boolean }> = [
-  {
-    label: "Szarpaki & gryzaki",
-    href: "/szukaj?type=szarpaki-gryzaki",
-    bold: true,
-  },
-  { label: "Piłki", href: "/szukaj?type=pilki" },
-  { label: "Trymery", href: "/szukaj?type=trymery-szczotki" },
-  { label: "Smycze", href: "/szukaj?type=smycze-obroze" },
-  { label: "Posłania", href: "/szukaj?type=poslania" },
+  { label: "Szarpaki & gryzaki", href: "/typ/szarpaki-gryzaki", bold: true },
+  { label: "Piłki", href: "/typ/pilki" },
+  { label: "Trymery", href: "/typ/trymery-szczotki" },
+  { label: "Smycze", href: "/typ/smycze-obroze" },
+  { label: "Posłania", href: "/typ/poslania" },
   { label: "Poradniki", href: "/poradnik", bold: true },
 ];
 

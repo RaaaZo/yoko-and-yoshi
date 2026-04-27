@@ -173,6 +173,36 @@ export async function searchProducts(
   return (data ?? []) as unknown as Product[];
 }
 
+/**
+ * All products mapped to any category in the species tree. Joins via
+ * product_categories → categories.species_id. Used by /zwierzaki/[species]
+ * for the "Polecane w {gatunku}" section.
+ */
+export async function listProductsBySpecies(
+  speciesId: string,
+  limit = 24,
+): Promise<Product[]> {
+  const supabase = await getSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("products")
+    .select(
+      `${PRODUCT_COLUMNS},
+       images:product_images(url, alt, sort_order, is_primary, blur_data_url),
+       item_types:product_item_types(item_type:item_types(slug, name)),
+       categories:product_categories!inner(category:categories!inner(species_id))`,
+    )
+    .eq("published", true)
+    .eq("product_categories.categories.species_id", speciesId)
+    .order("sort_score", { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    logger.error({ err: error, speciesId }, "listProductsBySpecies failed");
+    return [];
+  }
+  return (data ?? []) as unknown as Product[];
+}
+
 // NOTE: page-level `export const revalidate = 3600` handles caching for these
 // queries via ISR. We can't use unstable_cache here because the queries call
 // cookies() inside the supabase server client. Re-introduce unstable_cache
