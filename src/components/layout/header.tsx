@@ -21,14 +21,16 @@ export function Header() {
   return (
     <header className="bg-bg-surface border-border-soft sticky top-0 z-30 flex items-center gap-4 border-b px-4 py-2.5 md:gap-6 md:px-6">
       <Link href="/" className="flex shrink-0 items-center gap-2 no-underline">
-        <Image
-          src="/brand/logo-primary.png"
-          alt="Yoko & Yoshi"
-          width={64}
-          height={64}
-          className="yy-mascot-hover h-10 w-auto md:h-14"
-          priority
-        />
+        <span className="yy-mascot-hover bg-bg-warm border-border-soft inline-flex aspect-square h-10 items-center justify-center overflow-hidden rounded-full border md:h-14">
+          <Image
+            src="/brand/logo-primary.png"
+            alt="Yoko & Yoshi"
+            width={64}
+            height={64}
+            className="h-full w-full object-cover"
+            priority
+          />
+        </span>
       </Link>
 
       {/* Desktop nav */}

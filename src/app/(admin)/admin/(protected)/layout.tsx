@@ -40,12 +40,15 @@ export default async function AdminProtectedLayout({
       <div className="flex min-h-screen flex-col">
         <header className="bg-bg-surface border-border-soft sticky top-0 z-20 flex items-center gap-4 border-b px-6 py-3">
           <Link href="/admin" className="md:hidden">
-            <Image
-              src="/brand/logo-primary.png"
-              alt="Yoko & Yoshi"
-              width={36}
-              height={36}
-            />
+            <span className="bg-bg-warm border-border-soft inline-flex aspect-square size-9 items-center justify-center overflow-hidden rounded-full border">
+              <Image
+                src="/brand/logo-primary.png"
+                alt="Yoko & Yoshi"
+                width={36}
+                height={36}
+                className="h-full w-full object-cover"
+              />
+            </span>
           </Link>
           <div className="text-text-muted text-[0.78rem] tracking-[0.16em] uppercase">
             Yoko & Yoshi · admin

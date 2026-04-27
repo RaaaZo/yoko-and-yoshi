@@ -70,13 +70,15 @@ export function MobileMenuTrigger() {
             onClick={() => setOpen(false)}
             className="flex items-center"
           >
-            <Image
-              src="/brand/logo-primary.png"
-              alt="Yoko & Yoshi"
-              width={48}
-              height={48}
-              className="h-10 w-auto"
-            />
+            <span className="bg-bg-warm border-border-soft inline-flex aspect-square h-10 items-center justify-center overflow-hidden rounded-full border">
+              <Image
+                src="/brand/logo-primary.png"
+                alt="Yoko & Yoshi"
+                width={48}
+                height={48}
+                className="h-full w-full object-cover"
+              />
+            </span>
           </Link>
         </div>
 

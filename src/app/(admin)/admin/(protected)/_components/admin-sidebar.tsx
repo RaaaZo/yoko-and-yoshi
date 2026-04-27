@@ -71,12 +71,15 @@ export function AdminSidebar({ userLabel }: { userLabel: string }) {
         href="/admin"
         className="border-border-soft flex items-center gap-2.5 border-b px-5 py-4 no-underline"
       >
-        <Image
-          src="/brand/logo-primary.png"
-          alt="Yoko & Yoshi"
-          width={40}
-          height={40}
-        />
+        <span className="bg-bg-warm border-border-soft inline-flex aspect-square size-10 items-center justify-center overflow-hidden rounded-full border">
+          <Image
+            src="/brand/logo-primary.png"
+            alt="Yoko & Yoshi"
+            width={40}
+            height={40}
+            className="h-full w-full object-cover"
+          />
+        </span>
         <div>
           <div className="font-display text-text-primary text-[0.95rem] leading-none font-bold">
             Yoko <span className="amp">&</span> Yoshi

@@ -36,14 +36,18 @@ export function Footer() {
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <div className="mb-3 flex items-center gap-2.5">
-            <div className="rounded-md bg-white p-1.5">
+            <span
+              className="inline-flex aspect-square h-14 items-center justify-center overflow-hidden rounded-full border bg-[color:var(--color-bg-warm)]"
+              style={{ borderColor: "rgba(251,243,231,0.18)" }}
+            >
               <Image
                 src="/brand/logo-primary.png"
                 alt="Yoko & Yoshi"
                 width={56}
                 height={56}
+                className="h-full w-full object-cover"
               />
-            </div>
+            </span>
           </div>
           <p className="text-[0.88rem] leading-relaxed opacity-85">
             Sklep #1 dla shibowiarzy w Polsce. Polecamy najlepsze produkty dla
