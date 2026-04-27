@@ -1,29 +1,51 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 
 import { Button } from "@/components/ui/button";
 
 const KEY = "yy.cookie.consent.v1";
 
+/**
+ * Subscribe to localStorage["yy.cookie.consent.v1"] using
+ * useSyncExternalStore — React 19's recommended way to read browser-only
+ * state without falling foul of the `set-state-in-effect` rule.
+ */
+function getSnapshot(): string | null {
+  if (typeof window === "undefined") return null;
+  return window.localStorage.getItem(KEY);
+}
+
+function getServerSnapshot(): string | null {
+  return null;
+}
+
+function subscribe(onStoreChange: () => void): () => void {
+  if (typeof window === "undefined") return () => {};
+  window.addEventListener("storage", onStoreChange);
+  return () => window.removeEventListener("storage", onStoreChange);
+}
+
 export function CookieBanner() {
-  const [show, setShow] = useState(false);
+  const stored = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getServerSnapshot,
+  );
+  // After making a decision in this tab, the storage event doesn't fire —
+  // hide the banner via local state instead of relying on the snapshot.
+  const [dismissed, setDismissed] = useState(false);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const stored = window.localStorage.getItem(KEY);
-    if (!stored) setShow(true);
-  }, []);
-
-  if (!show) return null;
+  if (stored || dismissed) return null;
 
   function decide(value: "accept" | "essentials") {
+    if (typeof window === "undefined") return;
     window.localStorage.setItem(
       KEY,
       JSON.stringify({ value, at: new Date().toISOString() }),
     );
-    setShow(false);
+    setDismissed(true);
   }
 
   return (

@@ -1,14 +1,11 @@
-import { FlatCompat } from "@eslint/eslintrc";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import nextConfig from "eslint-config-next";
+import tseslint from "typescript-eslint";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({ baseDirectory: __dirname });
-
+// eslint-config-next@16 ships a flat-config array. typescript-eslint is
+// brought in explicitly so we can reference @typescript-eslint/* rules.
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...nextConfig,
+  ...tseslint.configs.recommended,
   {
     rules: {
       "no-console": ["error", { allow: ["warn", "error"] }],
@@ -39,6 +36,7 @@ const eslintConfig = [
       "next-env.d.ts",
       "supabase/migrations/**",
       "src/components/ui/**",
+      "src/hooks/**",
     ],
   },
 ];

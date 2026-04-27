@@ -5,9 +5,11 @@ shibowiarze that recommends products and links out to Allegro.
 Two mascots — **Yoko** (red shiba) and **Yoshi** (cream shiba) — recommend
 items from a curated selection.
 
-Stack: **Next.js 15** (App Router, RSC, SSR-first) · **Tailwind v4** ·
+Stack: **Next.js 16** (App Router, RSC, SSR-first) · **Tailwind v4** ·
 **shadcn/ui** · **Supabase** (Postgres + Auth + Storage + RLS) ·
 **TypeScript strict**.
+
+Requires **Node.js ≥ 20.9** (Next 16 minimum).
 
 ## Getting started
 
@@ -99,9 +101,10 @@ supabase/
 - **Database types** are stubbed (`src/types/database.ts`) until the first
   `pnpm db:types` run. Until then queries are loosely typed (`<any>` on
   every supabase client). Restore strict types after generating.
-- **Partial Pre-Rendering** is wired in spirit but `experimental.ppr` is
-  commented out — it's still canary-only as of Next 15.5.15. Re-enable
-  once stable.
+- **Partial Pre-Rendering** is still flagged in Next 16 stable; toggle
+  `experimental.ppr = "incremental"` in `next.config.ts` once we benchmark
+  it on the live site. Cache-components / `cacheLife` profiles are the
+  new caching surface — see Next 16 caching docs.
 
 ## Environment variables
 

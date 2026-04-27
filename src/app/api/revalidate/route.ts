@@ -42,7 +42,9 @@ export async function POST(req: Request) {
     revalidatePath(path);
   }
   for (const tag of parsed.data.tags ?? []) {
-    revalidateTag(tag);
+    // Next 16 requires a cache profile (string or CacheLifeConfig).
+    // "default" matches the framework's default revalidation behaviour.
+    revalidateTag(tag, "default");
   }
 
   logger.info(

@@ -7,9 +7,10 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
 
-  // Partial Pre-Rendering is canary-only as of Next 15.5.15. Re-enable
-  // (with `ppr: "incremental"`) once it lands in stable or once we move
-  // the Vercel project to the canary release channel.
+  // Partial Pre-Rendering is still flagged in Next 16 stable; toggle
+  // experimental.ppr to "incremental" once we benchmark it on the live
+  // site. Cache-components / cacheLife is the new caching surface — see
+  // https://nextjs.org/docs/app/building-your-application/caching .
   experimental: {
     optimizePackageImports: [
       "lucide-react",
