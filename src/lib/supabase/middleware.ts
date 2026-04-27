@@ -2,6 +2,8 @@ import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+import { createStubSupabaseClient, isSupabaseConfigured } from "./stub";
+
 type CookieToSet = { name: string; value: string; options: CookieOptions };
 
 /**
@@ -10,9 +12,24 @@ type CookieToSet = { name: string; value: string; options: CookieOptions };
  *
  * Returns the (possibly modified) response and the resolved user — callers
  * can use the user to gate /admin/* routes.
+ *
+ * When env is missing, returns a no-op stub so middleware doesn't crash.
+ * `user` is null in that case → admin routes redirect to /admin/login.
  */
 export async function updateSupabaseSession(request: NextRequest) {
-  let response = NextResponse.next({ request });
+  const response = NextResponse.next({ request });
+
+  if (!isSupabaseConfigured()) {
+    return {
+      response,
+      user: null,
+      supabase: createStubSupabaseClient() as unknown as ReturnType<
+        typeof createServerClient
+      >,
+    };
+  }
+
+  let mutableResponse = response;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const supabase = createServerClient<any>(
@@ -27,9 +44,9 @@ export async function updateSupabaseSession(request: NextRequest) {
           cookiesToSet.forEach(({ name, value }) => {
             request.cookies.set(name, value);
           });
-          response = NextResponse.next({ request });
+          mutableResponse = NextResponse.next({ request });
           cookiesToSet.forEach(({ name, value, options }) => {
-            response.cookies.set(name, value, options);
+            mutableResponse.cookies.set(name, value, options);
           });
         },
       },
@@ -42,5 +59,5 @@ export async function updateSupabaseSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  return { response, user, supabase };
+  return { response: mutableResponse, user, supabase };
 }
