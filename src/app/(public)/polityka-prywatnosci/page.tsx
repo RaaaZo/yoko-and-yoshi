@@ -26,10 +26,6 @@ export default function PrivacyPage() {
           <h2>2. Jakie dane zbieramy</h2>
           <ul>
             <li>
-              <strong>Newsletter:</strong> adres email (do wysyłki) i datę
-              zapisu (na potrzeby RODO).
-            </li>
-            <li>
               <strong>Formularz kontaktowy:</strong> imię, email, treść
               wiadomości, zhashowany IP.
             </li>
@@ -41,15 +37,7 @@ export default function PrivacyPage() {
           <h2>3. Twoje prawa</h2>
           <p>
             W każdej chwili możesz: poprosić o wgląd, sprostowanie lub usunięcie
-            swoich danych; cofnąć zgodę na newsletter (link w stopce każdego
-            maila); wnieść skargę do PUODO.
-          </p>
-          <h2>4. Linki partnerskie</h2>
-          <p>
-            Klikając linki do Allegro przekazujemy partnerowi minimum informacji
-            niezbędnych do rozliczenia prowizji (zazwyczaj jest to identyfikator
-            naszego konta partnerskiego). Pełne zasady — zobacz{" "}
-            <a href="/informacja-affiliate">informację affiliate</a>.
+            swoich danych; wnieść skargę do PUODO.
           </p>
         </div>
       </div>

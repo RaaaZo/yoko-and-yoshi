@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-import { YokoFace, YoshiFace } from "@/components/brand/icons";
+import { Search, YokoFace, YoshiFace } from "@/components/brand/icons";
 import {
   Sheet,
   SheetContent,
@@ -13,20 +13,15 @@ import {
 } from "@/components/ui/sheet";
 
 const SHOP_LINKS = [
-  ["🦴 Szarpaki & gryzaki", "/typ/szarpaki-gryzaki"],
-  ["🎾 Piłki", "/typ/pilki"],
-  ["✂️ Trymery & szczotki", "/typ/trymery-szczotki"],
-  ["🪢 Smycze & obroże", "/typ/smycze-obroze"],
-  ["🛏️ Posłania", "/typ/poslania"],
-  ["🥣 Miski & poidła", "/typ/miski-poidla"],
-  ["🎒 Transportery", "/typ/transportery"],
-  ["🧴 Pielęgnacja", "/typ/pielegnacja"],
+  ["🐕 Psy", "/zwierzaki/psy"],
+  ["🐈 Koty", "/zwierzaki/koty"],
+  ["🔥 Promocje", "/promocje"],
 ];
 
 const WORLD_LINKS = [
-  ["🐕 Hub rasowy: Shiba Inu", "/poradnik/rasy/shiba-inu"],
-  ["📖 Wszystkie poradniki", "/poradnik"],
-  ["💛 Bestsellery dla shib", "/poradnik/rasy/shiba-inu"],
+  ["Hub rasowy: Shiba Inu", "/poradnik/rasy/shiba-inu"],
+  ["Wszystkie poradniki", "/poradnik"],
+  ["Pielęgnacja", "/poradnik?cat=pielegnacja"],
 ];
 
 const ABOUT_LINKS = [
@@ -95,7 +90,7 @@ export function MobileMenuTrigger() {
                 aria-hidden
                 className="text-text-muted absolute top-1/2 left-4 -translate-y-1/2"
               >
-                ⌕
+                <Search size={18} />
               </span>
             </div>
           </form>
@@ -115,7 +110,7 @@ export function MobileMenuTrigger() {
               </Link>
             ))}
           </MenuSection>
-          <MenuSection title="Świat shibowiarzy">
+          <MenuSection title="Świat shib">
             {WORLD_LINKS.map(([label, href]) => (
               <Link
                 key={href}
@@ -123,7 +118,8 @@ export function MobileMenuTrigger() {
                 onClick={() => setOpen(false)}
                 className="font-display text-text-primary flex items-center gap-2.5 rounded-md px-3.5 py-3 text-[1rem] no-underline"
               >
-                {label}
+                <span>{label}</span>
+                <span className="text-text-muted ml-auto text-[1.1rem]">›</span>
               </Link>
             ))}
           </MenuSection>
@@ -133,9 +129,10 @@ export function MobileMenuTrigger() {
                 key={href}
                 href={href}
                 onClick={() => setOpen(false)}
-                className="text-text-secondary flex px-3.5 py-3 text-[0.95rem] no-underline"
+                className="text-text-primary flex items-center gap-2.5 rounded-md px-3.5 py-3 text-[1rem] no-underline"
               >
-                {label}
+                <span>{label}</span>
+                <span className="text-text-muted ml-auto text-[1.1rem]">›</span>
               </Link>
             ))}
           </MenuSection>
@@ -145,7 +142,7 @@ export function MobileMenuTrigger() {
           <YokoFace size={40} />
           <YoshiFace size={40} />
           <div className="text-text-secondary text-[0.82rem] leading-snug">
-            Polecamy — Ty kupujesz na Allegro u sprawdzonych sprzedawców.
+            Polecamy. Ty kupujesz na Allegro u sprawdzonych sprzedawców.
           </div>
         </div>
       </SheetContent>

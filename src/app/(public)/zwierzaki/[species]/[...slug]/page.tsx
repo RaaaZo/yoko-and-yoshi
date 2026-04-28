@@ -4,6 +4,7 @@ import {
   Breadcrumbs,
   type BreadcrumbItem,
 } from "@/components/brand/breadcrumbs";
+import { Carousel } from "@/components/brand/carousel";
 import { EmptyState } from "@/components/brand/empty-state";
 import { type SpeciesKind } from "@/components/brand/icons";
 import { CategoryTile } from "@/components/product/category-tile";
@@ -16,6 +17,7 @@ import {
   listAllCategoryPaths,
   listSubcategories,
 } from "@/lib/db/queries/taxonomy";
+import { capitaliseSlug } from "@/lib/utils";
 import type { Metadata } from "next";
 
 export const revalidate = 3600;
@@ -82,14 +84,14 @@ export default async function CategoryPage({ params }: { params: Params }) {
   // intermediate categories. Acceptable for MVP; can join later.
   const breadcrumbs: BreadcrumbItem[] = [
     { label: "Start", href: "/" },
-    { label: "Zwierzaki", href: "/zwierzaki/psy" },
+    { label: "Zwierzaki", href: "/zwierzaki" },
     { label: speciesData.name, href: `/zwierzaki/${species}` },
   ];
   // Intermediate path segments (everything except current = last segment)
   for (let i = 0; i < slug.length - 1; i++) {
     const partialPath = [species, ...slug.slice(0, i + 1)].join("/");
     breadcrumbs.push({
-      label: capitalise(slug[i]),
+      label: capitaliseSlug(slug[i]),
       href: `/zwierzaki/${partialPath}`,
     });
   }
@@ -121,16 +123,22 @@ export default async function CategoryPage({ params }: { params: Params }) {
         {subcategories.length > 0 && (
           <section className="mb-10">
             <h2 className="mb-4 text-[1.4rem]">Podkategorie</h2>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+            <Carousel ariaLabel={`Podkategorie: ${cat.name}`}>
               {subcategories.map((sub) => (
-                <CategoryTile
+                <div
                   key={sub.id}
-                  href={`/zwierzaki/${sub.path_cache}`}
-                  kind={iconKind}
-                  label={sub.name}
-                />
+                  className="flex min-w-[180px] flex-1 snap-start sm:min-w-[200px]"
+                >
+                  <CategoryTile
+                    href={`/zwierzaki/${sub.path_cache}`}
+                    categorySlug={sub.slug}
+                    fallbackKind={iconKind}
+                    label={sub.name}
+                    className="flex-1"
+                  />
+                </div>
               ))}
-            </div>
+            </Carousel>
           </section>
         )}
 
@@ -178,10 +186,6 @@ export default async function CategoryPage({ params }: { params: Params }) {
       </div>
     </article>
   );
-}
-
-function capitalise(s: string): string {
-  return s.charAt(0).toUpperCase() + s.slice(1).replace(/-/g, " ");
 }
 
 function CategoryJsonLd({

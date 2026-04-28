@@ -19,6 +19,33 @@ export function formatPricePLN(value: number | string | null | undefined) {
   return PLN_FORMATTER.format(n);
 }
 
+/**
+ * Capitalise the first letter and replace dashes with spaces.
+ * Used as a fallback display label when category data isn't available
+ * (e.g. building breadcrumbs from a slug-only URL segment).
+ */
+export function capitaliseSlug(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1).replace(/-/g, " ");
+}
+
+/**
+ * Polish dative plural ("celownik mn.") for a species slug — used in
+ * copy like "Co polecamy psom / kotom". Falls back to the slug itself
+ * if unknown so we don't render anything mid-grammatical.
+ */
+export function speciesDativus(slug: string): string {
+  return SPECIES_DATIVUS[slug] ?? slug;
+}
+
+const SPECIES_DATIVUS: Record<string, string> = {
+  psy: "psom",
+  koty: "kotom",
+  gryzonie: "gryzoniom",
+  ptaki: "ptakom",
+  ryby: "rybom",
+  gady: "gadom",
+};
+
 const POLISH_DIACRITICS: Record<string, string> = {
   ą: "a",
   ć: "c",
@@ -53,9 +80,19 @@ export function slugify(input: string): string {
 
 /**
  * Best-guess mascot for a product/category — used as a fallback when nothing
- * is explicitly set. Yoko leans into energy/play; Yoshi into food/care.
+ * is explicitly set. Yoko leans into comfort/care; Yoshi into energy/play.
  */
 const YOKO_KEYWORDS = [
+  "poslan",
+  "miska",
+  "mata",
+  "legowisk",
+  "pielegnac",
+  "trymer",
+  "szczotka",
+  "furminator",
+];
+const YOSHI_KEYWORDS = [
   "zabawk",
   "szarpak",
   "pilk",
@@ -63,15 +100,6 @@ const YOKO_KEYWORDS = [
   "ringer",
   "smycz",
   "frisbee",
-];
-const YOSHI_KEYWORDS = [
-  "karma",
-  "poslan",
-  "miska",
-  "pielegnac",
-  "trymer",
-  "szczotka",
-  "furminator",
 ];
 
 export function mascotFor(label: string): "yoko" | "yoshi" | null {

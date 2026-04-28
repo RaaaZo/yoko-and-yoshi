@@ -1,17 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { Heart, Sparkle } from "@/components/brand/icons";
+import { Search } from "@/components/brand/icons";
+import { DesktopNav } from "./desktop-nav";
 import { MobileMenuTrigger } from "./mobile-menu";
-
-const NAV_LINKS: Array<{ label: string; href: string; bold?: boolean }> = [
-  { label: "Szarpaki & gryzaki", href: "/typ/szarpaki-gryzaki", bold: true },
-  { label: "Piłki", href: "/typ/pilki" },
-  { label: "Trymery", href: "/typ/trymery-szczotki" },
-  { label: "Smycze", href: "/typ/smycze-obroze" },
-  { label: "Posłania", href: "/typ/poslania" },
-  { label: "Poradniki", href: "/poradnik", bold: true },
-];
 
 export function Header() {
   return (
@@ -30,19 +22,7 @@ export function Header() {
       </Link>
 
       {/* Desktop nav */}
-      <nav className="hidden text-[0.95rem] font-medium lg:flex lg:gap-5">
-        {NAV_LINKS.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={`yy-link-paw text-text-primary no-underline ${
-              link.bold ? "font-bold" : "font-medium"
-            }`}
-          >
-            {link.label}
-          </Link>
-        ))}
-      </nav>
+      <DesktopNav />
 
       {/* Search (desktop + tablet) */}
       <form
@@ -58,29 +38,12 @@ export function Header() {
           />
           <span
             aria-hidden
-            className="text-text-muted absolute top-1/2 left-3.5 -translate-y-1/2"
+            className="text-text-muted absolute top-1/2 left-4 -translate-y-1/2"
           >
-            ⌕
+            <Search size={18} />
           </span>
         </div>
       </form>
-
-      <div className="hidden items-center gap-2 lg:flex">
-        <Link
-          href="/promocje"
-          className="bg-bg-elevated border-border-soft grid size-10 place-items-center rounded-full border-[1.5px]"
-          aria-label="Promocje"
-        >
-          <Sparkle size={18} color="var(--color-secondary)" />
-        </Link>
-        <Link
-          href="/ulubione"
-          className="bg-bg-elevated border-border-soft grid size-10 place-items-center rounded-full border-[1.5px]"
-          aria-label="Ulubione"
-        >
-          <Heart size={18} color="var(--color-primary)" />
-        </Link>
-      </div>
 
       {/* Mobile / tablet trigger */}
       <div className="ml-auto flex items-center gap-2 lg:hidden">
@@ -89,7 +52,7 @@ export function Header() {
           className="bg-bg-elevated border-border-soft grid size-10 place-items-center rounded-full border-[1.5px] md:hidden"
           aria-label="Szukaj"
         >
-          ⌕
+          <Search size={18} />
         </Link>
         <MobileMenuTrigger />
       </div>

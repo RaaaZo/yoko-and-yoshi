@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { searchProducts } from "@/lib/db/queries/products";
-import { getCachedItemTypes } from "@/lib/db/queries/taxonomy";
+import { getCachedSpecies } from "@/lib/db/queries/taxonomy";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -22,7 +22,6 @@ export const metadata: Metadata = {
 type SP = Promise<{
   q?: string;
   // legacy params — redirected to canonical SEO URLs
-  type?: string;
   species?: string;
   for?: string;
   recommended?: string;
@@ -35,22 +34,21 @@ export default async function SearchPage({
 }) {
   const sp = await searchParams;
 
-  // Legacy redirect: ?type= → /typ/[slug]; ?species= → /zwierzaki/[slug].
+  // Legacy redirect: ?species= → /zwierzaki/[slug].
   // permanentRedirect() returns 308, search engines pass authority along.
-  if (sp.type) permanentRedirect(`/typ/${sp.type}`);
   if (sp.species) permanentRedirect(`/zwierzaki/${sp.species}`);
   if (sp.recommended === "1") permanentRedirect("/promocje");
   if (sp.for === "shiba") permanentRedirect("/poradnik/rasy/shiba-inu");
 
   const query = (sp.q ?? "").trim();
-  const allItemTypes = await getCachedItemTypes();
+  const species = await getCachedSpecies();
   const products = query ? await searchProducts(query, 60) : [];
 
   return (
     <section className="px-6 py-10">
       <div className="mx-auto max-w-6xl">
         <h1 className="mb-4">
-          {query ? `Wyniki: "${query}"` : "Szukaj produktów"}
+          {query ? `Wyniki: "${query}"` : "Czego szukasz?"}
         </h1>
 
         <form
@@ -71,14 +69,12 @@ export default async function SearchPage({
 
         <div className="mb-6">
           <p className="text-text-muted mb-3 text-[0.85rem]">
-            Albo przeglądaj po typie produktu:
+            Albo przeglądaj po gatunku:
           </p>
           <div className="flex flex-wrap gap-2">
-            {allItemTypes.map((it) => (
-              <Link key={it.id} href={`/typ/${it.slug}`}>
-                <Badge tone="outline">
-                  {it.icon_emoji} {it.name}
-                </Badge>
+            {species.map((s) => (
+              <Link key={s.id} href={`/zwierzaki/${s.slug}`}>
+                <Badge tone="outline">{s.name}</Badge>
               </Link>
             ))}
           </div>
@@ -113,7 +109,7 @@ export default async function SearchPage({
           ) : (
             <EmptyState
               title="Nic nie znaleźliśmy"
-              subtitle="Spróbuj innych słów albo przeglądaj kategorie powyżej."
+              subtitle="Spróbuj innych słów albo wybierz gatunek powyżej."
             />
           )
         ) : null}

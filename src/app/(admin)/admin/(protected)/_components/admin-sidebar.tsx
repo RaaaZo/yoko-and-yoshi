@@ -5,9 +5,9 @@ import {
   Bookmark,
   FileText,
   ImageIcon,
+  Inbox,
   LayoutDashboard,
   ListTree,
-  Mail,
   PawPrint as PawIcon,
   Settings,
   ShieldCheck,
@@ -49,7 +49,7 @@ const NAV: Array<{
   {
     group: "Operacje",
     items: [
-      { href: "/admin/newsletter", label: "Newsletter", icon: Mail },
+      { href: "/admin/kontakt", label: "Kontakt", icon: Inbox },
       {
         href: "/admin/przekierowania",
         label: "Przekierowania",

@@ -25,11 +25,12 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://yokoyoshi.pl",
   ),
   title: {
-    default: "Yoko & Yoshi — sklep dla shibowiarzy i innych zwierzaków",
+    default:
+      "Yoko & Yoshi — polski przewodnik dla opiekunów psów, kotów i shib",
     template: "%s | Yoko & Yoshi",
   },
   description:
-    "Kuratorska selekcja zabawek, akcesoriów i pielęgnacji dla psów, kotów i innych zwierząt — ze szczególną miłością do shib. Klikasz, kupujesz na Allegro, dostajesz pod drzwi.",
+    "Polski przewodnik dla opiekunów psów i kotów. Polecamy najlepsze akcesoria — ze szczególnym targetem na shiby. Klikasz, kupujesz na Allegro, dostajesz pod drzwi.",
   applicationName: "Yoko & Yoshi",
   authors: [{ name: "Yoko & Yoshi" }],
   formatDetection: { email: false, address: false, telephone: false },
@@ -39,7 +40,8 @@ export const metadata: Metadata = {
     siteName: "Yoko & Yoshi",
   },
   twitter: { card: "summary_large_image" },
-  icons: { icon: "/favicon.ico" },
+  // No `icons` here — Next.js auto-detects src/app/icon.png and apple-icon.png
+  // via the metadata file convention.
 };
 
 export default function RootLayout({

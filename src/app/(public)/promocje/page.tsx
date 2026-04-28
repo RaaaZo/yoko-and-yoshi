@@ -1,5 +1,8 @@
+import Link from "next/link";
+
 import { ProductCard } from "@/components/product/product-card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/brand/empty-state";
 import { getCachedRecommendedProducts } from "@/lib/db/queries/products";
 import type { Metadata } from "next";
@@ -9,7 +12,7 @@ export const revalidate = 1800;
 export const metadata: Metadata = {
   title: "Promocje",
   description:
-    "Aktualne promocje i przeceny u naszych partnerów na Allegro. Tylko sprawdzone produkty.",
+    "Aktualne promocje i przeceny u sprzedawców na Allegro. Tylko sprawdzone produkty.",
   alternates: { canonical: "/promocje" },
 };
 
@@ -23,14 +26,19 @@ export default async function PromosPage() {
         <Badge tone="new">🔥 Promocje</Badge>
         <h1 className="mt-3 mb-3">Aktualne przeceny</h1>
         <p className="text-text-secondary mb-8 max-w-2xl text-lg">
-          Wybrane produkty taniej niż zwykle. Ceny aktualizujemy z Allegro
-          codziennie — kto pierwszy, ten lepszy.
+          Wybrane produkty taniej niż zwykle. Sprawdzamy ceny u sprzedawców
+          codziennie. Promocje wchodzą i znikają — kto pierwszy, ten lepszy.
         </p>
 
         {onSale.length === 0 ? (
           <EmptyState
             title="Brak aktywnych promocji"
-            subtitle="Zaglądaj częściej — albo zapisz się na newsletter."
+            subtitle="Zaglądaj częściej — przeceny pojawiają się i znikają."
+            action={
+              <Button asChild variant="primary">
+                <Link href="/szukaj">Przeglądaj sklep</Link>
+              </Button>
+            }
           />
         ) : (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">

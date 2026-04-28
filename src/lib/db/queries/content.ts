@@ -1,6 +1,8 @@
 import { logger } from "@/lib/logger";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/stub";
 import type { Article, Breed } from "@/types/domain";
+import { MOCK_ARTICLES, MOCK_BREEDS } from "../mock";
 
 export async function listArticles(
   opts: {
@@ -8,6 +10,12 @@ export async function listArticles(
     category?: Article["category"];
   } = {},
 ): Promise<Article[]> {
+  if (!isSupabaseConfigured()) {
+    let arr = MOCK_ARTICLES;
+    if (opts.category) arr = arr.filter((a) => a.category === opts.category);
+    if (opts.limit) arr = arr.slice(0, opts.limit);
+    return arr;
+  }
   const supabase = await getSupabaseServerClient();
   let q = supabase
     .from("articles")
@@ -27,6 +35,9 @@ export async function listArticles(
 }
 
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
+  if (!isSupabaseConfigured()) {
+    return MOCK_ARTICLES.find((a) => a.slug === slug) ?? null;
+  }
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("articles")
@@ -42,6 +53,9 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
 }
 
 export async function getBreedBySlug(slug: string): Promise<Breed | null> {
+  if (!isSupabaseConfigured()) {
+    return MOCK_BREEDS.find((b) => b.slug === slug) ?? null;
+  }
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("breeds")
@@ -57,6 +71,7 @@ export async function getBreedBySlug(slug: string): Promise<Breed | null> {
 }
 
 export async function listBreeds(): Promise<Breed[]> {
+  if (!isSupabaseConfigured()) return MOCK_BREEDS;
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("breeds")

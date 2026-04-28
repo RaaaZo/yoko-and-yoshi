@@ -10,11 +10,10 @@ export const dynamic = "force-dynamic";
 export default async function DashboardPage() {
   const supabase = await getSupabaseServerClient();
 
-  const [productCount, articleCount, newsletterCount, contactCount, clicks7d] =
+  const [productCount, articleCount, contactCount, clicks7d] =
     await Promise.all([
       countTable("products"),
       countTable("articles"),
-      countTable("newsletter_subscribers", "confirmed.eq.true"),
       countTable("contact_messages", "status.eq.new"),
       countClicks7d(),
     ]);
@@ -34,14 +33,9 @@ export default async function DashboardPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         <KpiCard label="Produkty" value={productCount} href="/admin/produkty" />
         <KpiCard label="Artykuły" value={articleCount} href="/admin/artykuly" />
-        <KpiCard
-          label="Subskrybenci"
-          value={newsletterCount}
-          href="/admin/newsletter"
-        />
         <KpiCard
           label="Kontakt (nowe)"
           value={contactCount}

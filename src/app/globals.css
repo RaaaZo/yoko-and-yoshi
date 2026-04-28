@@ -41,9 +41,9 @@
   --color-warning: #f5a05a;
   --color-danger: #e55934;
 
-  /* AFFILIATE CTA */
-  --color-cta-affiliate: #ff5a00;
-  --color-cta-affiliate-hover: #e64f00;
+  /* ALLEGRO CTA */
+  --color-cta-allegro: #ff5a00;
+  --color-cta-allegro-hover: #e64f00;
 
   /* RADII */
   --radius-sm: 8px;
@@ -353,6 +353,42 @@
 
   .dashed-brand {
     border: 2px dashed var(--color-border-default);
+  }
+
+  /*
+   * Hide scrollbar visuals on horizontal scrollers (carousels) while
+   * keeping the element scrollable. Cross-browser: Firefox uses
+   * scrollbar-width, WebKit/Blink uses ::-webkit-scrollbar.
+   */
+  .yy-no-scrollbar {
+    scrollbar-width: none;
+  }
+  .yy-no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /*
+   * Reserve bold-weight width on every nav link so toggling between
+   * font-medium and font-bold (active state) doesn't shift the row.
+   *
+   * REQUIRES: a `data-text="…"` attribute on the element matching its
+   * visible label. Without it, attr(data-text) resolves to an empty
+   * string and the reservation collapses → layout shift returns.
+   *
+   * Works by rendering an invisible bold copy of the label via ::before
+   * with display:block — that pseudo dictates width on the inline-block
+   * parent, while the real label sits over it.
+   */
+  .yy-nav-stable {
+    display: inline-block;
+  }
+  .yy-nav-stable::before {
+    content: attr(data-text);
+    display: block;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    font-weight: 700;
   }
 
   .yy-link-paw {

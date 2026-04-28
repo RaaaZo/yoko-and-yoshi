@@ -97,6 +97,12 @@ export type Product = {
   images?: ProductImage[];
   faqs?: ProductFaq[];
   item_types?: ItemType[];
+  /**
+   * Category paths the product is mapped to (e.g. ["psy/zabawki"]).
+   * Used to build breadcrumbs on the product page. First element is
+   * treated as the canonical/primary category.
+   */
+  category_paths?: string[];
 };
 
 export type Article = {
@@ -106,6 +112,9 @@ export type Article = {
   excerpt: string | null;
   content: string | null;
   hero_image_url: string | null;
+  // "zywienie" is intentionally retained even though we don't sell food —
+  // existing DB rows may still carry it, and removing the value would
+  // crash CATEGORY_LABELS lookups. The /poradnik filter UI hides it.
   category:
     | "zywienie"
     | "pielegnacja"
@@ -143,7 +152,6 @@ export type HomepageSectionKind =
   | "featured_products"
   | "shiba_callout"
   | "articles"
-  | "newsletter"
   | "custom_html";
 
 export type HomepageSection = {

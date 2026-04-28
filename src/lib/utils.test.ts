@@ -31,7 +31,7 @@ describe("formatPricePLN", () => {
 
 describe("slugify", () => {
   it("strips Polish diacritics", () => {
-    expect(slugify("Karma sucha — żółć ąść")).toBe("karma-sucha-zolc-asc");
+    expect(slugify("Posłanie — żółć ąść")).toBe("poslanie-zolc-asc");
   });
 
   it("collapses whitespace and dashes", () => {
@@ -42,14 +42,14 @@ describe("slugify", () => {
 });
 
 describe("mascotFor", () => {
-  it("picks Yoko for play/movement keywords", () => {
-    expect(mascotFor("Szarpak ze sznura")).toBe("yoko");
-    expect(mascotFor("Piłka tenisowa")).toBe("yoko");
+  it("picks Yoko for care/comfort keywords", () => {
+    expect(mascotFor("Posłanie ortopedyczne XL")).toBe("yoko");
+    expect(mascotFor("Trymer akumulatorowy")).toBe("yoko");
   });
 
-  it("picks Yoshi for food/care keywords", () => {
-    expect(mascotFor("Karma sucha 11.4kg")).toBe("yoshi");
-    expect(mascotFor("Trymer akumulatorowy")).toBe("yoshi");
+  it("picks Yoshi for play/movement keywords", () => {
+    expect(mascotFor("Szarpak ze sznura")).toBe("yoshi");
+    expect(mascotFor("Piłka tenisowa")).toBe("yoshi");
   });
 
   it("returns null for unknown labels", () => {

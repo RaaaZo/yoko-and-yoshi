@@ -7,6 +7,8 @@ export {
   type YokoYoshiVariant,
 } from "./yoko-yoshi-together";
 export { PawPrint } from "./paw-print";
+export { CategoryIcon, type CategoryIconKind } from "./category-icon";
 export { Heart } from "./heart";
+export { Search } from "./search";
 export { Sparkle } from "./sparkle";
 export { SpeciesIcon, type SpeciesKind } from "./species-icon";

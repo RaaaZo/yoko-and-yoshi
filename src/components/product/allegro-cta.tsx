@@ -15,9 +15,8 @@ type AllegroCTAProps = {
 };
 
 /**
- * Affiliate link to Allegro. Always opens in a new tab with
- * rel="sponsored noopener" — search engines must see the affiliate
- * relationship, and we don't expose window.opener.
+ * External link to the product on Allegro. Opens in a new tab with
+ * rel="noopener noreferrer" so we don't expose window.opener.
  *
  * Click tracking happens client-side via fetch with keepalive: the
  * navigation isn't blocked even if the request is in flight.
@@ -29,7 +28,7 @@ export function AllegroCTA({
   full,
   sticky,
   className,
-  label = "Zobacz na Allegro",
+  label = "Kup na Allegro",
 }: AllegroCTAProps) {
   const handleClick = React.useCallback(() => {
     if (!productId) return;
@@ -53,10 +52,10 @@ export function AllegroCTA({
     <a
       href={href}
       target="_blank"
-      rel="sponsored noopener noreferrer"
+      rel="noopener noreferrer"
       onClick={handleClick}
       className={cn(
-        "yy-btn-anim font-display inline-flex items-center justify-center gap-3 rounded-full bg-[color:var(--color-cta-affiliate)] text-[color:var(--color-text-inverse)] shadow-md transition hover:bg-[color:var(--color-cta-affiliate-hover)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[color:var(--color-accent-cyan)]",
+        "yy-btn-anim font-display inline-flex items-center justify-center gap-3 rounded-full bg-[color:var(--color-cta-allegro)] text-[color:var(--color-text-inverse)] shadow-md transition hover:bg-[color:var(--color-cta-allegro-hover)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[color:var(--color-accent-cyan)]",
         full ? "w-full" : "",
         sticky ? "px-5 py-4 text-[1.05rem]" : "px-6 py-4 text-[1.05rem]",
         "min-h-14",
@@ -66,7 +65,7 @@ export function AllegroCTA({
     >
       <span className="inline-flex items-center gap-2.5">
         <span
-          className="font-display grid size-7 place-items-center rounded-md bg-white text-lg font-bold text-[color:var(--color-cta-affiliate)]"
+          className="font-display grid size-7 place-items-center rounded-md bg-white text-lg font-bold text-[color:var(--color-cta-allegro)]"
           aria-hidden
         >
           ↗

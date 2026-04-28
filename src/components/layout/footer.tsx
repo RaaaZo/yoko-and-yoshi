@@ -7,7 +7,7 @@ const COLUMNS: Array<{ heading: string; links: Array<[string, string]> }> = [
     links: [
       ["Psy", "/zwierzaki/psy"],
       ["Koty", "/zwierzaki/koty"],
-      ["Inne zwierzaki", "/zwierzaki/gryzonie"],
+      ["Inne zwierzaki", "/zwierzaki"],
       ["Promocje", "/promocje"],
     ],
   },
@@ -16,7 +16,7 @@ const COLUMNS: Array<{ heading: string; links: Array<[string, string]> }> = [
     links: [
       ["Rasy psów", "/poradnik?cat=rasy"],
       ["Pielęgnacja", "/poradnik?cat=pielegnacja"],
-      ["Żywienie", "/poradnik?cat=zywienie"],
+      ["Akcesoria", "/poradnik?cat=akcesoria"],
       ["Wszystkie", "/poradnik"],
     ],
   },
@@ -25,8 +25,6 @@ const COLUMNS: Array<{ heading: string; links: Array<[string, string]> }> = [
     links: [
       ["Kim jesteśmy", "/o-nas"],
       ["Kontakt", "/kontakt"],
-      ["Newsletter", "/newsletter"],
-      ["Informacja affiliate", "/informacja-affiliate"],
     ],
   },
 ];
@@ -37,34 +35,25 @@ export function Footer() {
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <div className="mb-3 flex items-center gap-2.5">
-            <span
+            <Link
+              href="/"
+              aria-label="Yoko & Yoshi — wróć na stronę główną"
               className="inline-flex aspect-square h-14 items-center justify-center overflow-hidden rounded-full border bg-[color:var(--color-bg-warm)]"
               style={{ borderColor: "rgba(251,243,231,0.18)" }}
             >
               <Image
                 src="/brand/logo-primary.png"
-                alt="Yoko & Yoshi"
+                alt=""
                 width={56}
                 height={56}
                 className="h-full w-full object-cover"
               />
-            </span>
+            </Link>
           </div>
           <p className="text-[0.88rem] leading-relaxed opacity-85">
-            Sklep #1 dla shibowiarzy w Polsce. Polecamy najlepsze produkty dla
-            psów, kotów i innych zwierzaków — a Ty kupujesz je u sprawdzonych
-            sprzedawców na Allegro.
+            Polski przewodnik dla opiekunów psów i kotów. Polecamy najlepsze
+            akcesoria — Ty kupujesz u sprawdzonych sprzedawców na Allegro.
           </p>
-          <div
-            className="mt-4 rounded-md p-3 text-[0.78rem] leading-relaxed"
-            style={{ background: "rgba(251,243,231,.08)" }}
-          >
-            <strong className="text-[color:var(--color-secondary)]">
-              Affiliate:
-            </strong>{" "}
-            niektóre linki to linki partnerskie — jeśli kupisz przez nie,
-            dostaniemy małą prowizję. Cena dla Ciebie się nie zmienia.
-          </div>
         </div>
         {COLUMNS.map((col) => (
           <div key={col.heading}>

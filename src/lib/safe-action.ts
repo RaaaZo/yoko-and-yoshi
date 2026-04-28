@@ -10,8 +10,8 @@ import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { logger } from "@/lib/logger";
 
 /**
- * Public safe action client — no auth required. Used for newsletter signup,
- * contact form, click tracking forwarded from client.
+ * Public safe action client — no auth required. Used for the contact
+ * form and click tracking forwarded from client.
  */
 export const actionClient = createSafeActionClient({
   defineMetadataSchema() {

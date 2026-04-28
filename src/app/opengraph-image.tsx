@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Yoko & Yoshi — sklep dla shibowiarzy";
+export const alt = "Yoko & Yoshi — polski przewodnik dla opiekunów psów i kotów";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -42,8 +42,7 @@ export default async function OpengraphImage() {
           marginBottom: 24,
         }}
       >
-        Sklep #1 dla <span style={{ color: "#F08C7A" }}>shibowiarzy</span> w
-        Polsce.
+        Wszystko poza <span style={{ color: "#F08C7A" }}>miską</span>.
       </div>
       <div
         style={{
@@ -53,8 +52,8 @@ export default async function OpengraphImage() {
           lineHeight: 1.4,
         }}
       >
-        Zabawki, pielęgnacja, akcesoria — kuratorska selekcja, kupowanie na
-        Allegro.
+        Polski przewodnik dla opiekunów psów i kotów. Polecamy, klikasz na
+        Allegro, dostajesz pod drzwi.
       </div>
     </div>,
     size,

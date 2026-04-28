@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn, formatPricePLN } from "@/lib/utils";
 import type { ComponentProps } from "react";
 import type { RecommendingMascot } from "@/types/domain";
+import { StarRating } from "./star-rating";
 
 type ProductCardProps = {
   href: string;
@@ -95,18 +96,20 @@ export function ProductCard({
         </div>
       )}
 
-      <h3 className="font-body text-text-primary m-0 min-h-[2.5em] text-[0.95rem] leading-snug font-semibold">
+      <h3 className="font-body text-text-primary m-0 line-clamp-3 min-h-[3.9em] text-[0.95rem] leading-snug font-semibold">
         {name}
       </h3>
 
-      {rating && (
-        <div className="text-text-secondary flex items-center gap-1.5 text-[0.8rem]">
-          <span className="text-[color:var(--color-secondary)]">★★★★★</span>
+      {rating ? (
+        <div className="text-text-secondary flex h-5 items-center gap-1.5 text-[0.8rem]">
+          <StarRating rating={rating} />
           <span>
             {rating}
             {typeof ratingCount === "number" && ` (${ratingCount})`}
           </span>
         </div>
+      ) : (
+        <div className="h-5" aria-hidden />
       )}
 
       <div className="mt-auto flex items-baseline justify-between">
@@ -124,7 +127,7 @@ export function ProductCard({
         </div>
         {allegroUrl && (
           <span
-            className="font-display inline-flex items-center gap-1 rounded-full bg-[color:var(--color-cta-affiliate)] px-3 py-1.5 text-[0.78rem] font-semibold text-white"
+            className="font-display inline-flex items-center gap-1 rounded-full bg-[color:var(--color-cta-allegro)] px-3 py-1.5 text-[0.78rem] font-semibold text-white"
             data-product-id={productId}
           >
             Allegro <span aria-hidden>↗</span>

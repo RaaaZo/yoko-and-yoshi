@@ -18,13 +18,13 @@ export default function GlobalError({
   return (
     <main className="bg-bg-base flex min-h-screen items-center justify-center px-6">
       <div className="mx-auto max-w-md text-center">
-        <h1 className="mb-3 text-4xl">Coś poszło nie tak.</h1>
+        <h1 className="mb-3 text-4xl">Coś nie pykło.</h1>
         <p className="text-text-secondary mb-8 text-lg">
-          Spróbuj odświeżyć stronę. Jeśli problem się powtarza, daj znać:{" "}
+          Najczęściej pomaga odświeżenie. Jeśli nie —{" "}
           <a href="/kontakt" className="text-accent-cyan underline">
-            kontakt
+            napisz do nas
           </a>
-          .
+          , zerkniemy.
         </p>
         {error.digest && (
           <p className="text-text-muted mb-8 font-mono text-xs">

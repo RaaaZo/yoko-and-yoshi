@@ -120,8 +120,8 @@ export function ProductForm({ initial }: { initial?: Initial }) {
             className="border-border-soft bg-bg-surface text-text-primary h-11 w-full rounded-md border px-3"
           >
             <option value="none">— bez maskotki —</option>
-            <option value="yoko">Yoko (energia, zabawki)</option>
-            <option value="yoshi">Yoshi (karma, troska)</option>
+            <option value="yoko">Yoko (wygoda, troska)</option>
+            <option value="yoshi">Yoshi (energia, zabawki)</option>
             <option value="both">Oboje</option>
           </select>
         </div>

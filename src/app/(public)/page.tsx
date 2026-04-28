@@ -7,16 +7,20 @@ import {
   YokoSitting,
   YokoYoshiTogether,
 } from "@/components/brand/icons";
-import { NewsletterBox } from "@/components/brand/newsletter-box";
+import { ArticleCard } from "@/components/brand/article-card";
 import { PawDivider } from "@/components/brand/paw-divider";
-import { ItemTile } from "@/components/product/item-tile";
+import { CategoryTile } from "@/components/product/category-tile";
+import { Carousel } from "@/components/brand/carousel";
 import { ProductCard } from "@/components/product/product-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { listArticles } from "@/lib/db/queries/content";
-import { getCachedRecommendedProducts } from "@/lib/db/queries/products";
-import { getCachedItemTypes } from "@/lib/db/queries/taxonomy";
+import {
+  getCachedRecommendedProducts,
+  listProductsBySpecies,
+} from "@/lib/db/queries/products";
+import { getCachedSpecies } from "@/lib/db/queries/taxonomy";
 
 export const revalidate = 3600;
 
@@ -35,11 +39,6 @@ export default function HomePage() {
       <Suspense fallback={<ArticlesSkeleton />}>
         <ArticlesSection />
       </Suspense>
-      <section className="px-6 pb-24">
-        <div className="mx-auto max-w-6xl">
-          <NewsletterBox />
-        </div>
-      </section>
     </>
   );
 }
@@ -59,22 +58,16 @@ function Hero() {
             <span className="text-[color:var(--color-primary)]">miską</span>.
           </h1>
           <p className="text-text-secondary mb-6 max-w-xl text-lg leading-relaxed">
-            Kuratorska selekcja: szarpaki, piłki, trymery, smycze, posłania,
-            transportery. Dla psów, kotów i innych zwierzaków — ze szczególną
-            miłością do shib. Klikasz, kupujesz na Allegro, dostajesz pod drzwi.
+            Polski przewodnik dla opiekunów psów i kotów — ze szczególnym
+            targetem na shiby. Polecamy, opisujemy, klikasz na Allegro.
           </p>
           <div className="flex flex-wrap gap-3">
             <Button asChild variant="primary" size="lg">
-              <Link href="/szukaj">Odkryj produkty</Link>
+              <Link href="/szukaj">Co polecamy</Link>
             </Button>
             <Button asChild variant="secondary" size="lg">
-              <Link href="/o-nas">Poznaj nas</Link>
+              <Link href="/o-nas">Po co tu jesteśmy</Link>
             </Button>
-          </div>
-          <div className="mt-8 flex flex-wrap gap-7">
-            <Stat n="2 400+" l="produktów" />
-            <Stat n="48" l="poradników" />
-            <Stat n="4,8 ★" l="ocena czytelników" />
           </div>
         </div>
         <div className="relative">
@@ -93,35 +86,34 @@ function Hero() {
   );
 }
 
-function Stat({ n, l }: { n: string; l: string }) {
-  return (
-    <div>
-      <div className="num text-text-primary text-[1.6rem]">{n}</div>
-      <div className="text-text-secondary text-[0.82rem]">{l}</div>
-    </div>
-  );
-}
-
 async function ItemTilesSection() {
-  const items = await getCachedItemTypes();
-  if (items.length === 0) return null;
+  const species = await getCachedSpecies();
+  // Show only psy and koty as primary species tiles on home.
+  const featured = species.filter((s) => s.slug === "psy" || s.slug === "koty");
+  if (featured.length === 0) return null;
+
+  // Per-species product counts to fill the tile labels.
+  const counts = await Promise.all(
+    featured.map((s) => listProductsBySpecies(s.id, 200).then((p) => p.length)),
+  );
+
   return (
     <section className="px-6 py-8">
       <div className="mx-auto max-w-6xl">
         <SectionHead
-          kicker="Kategorie produktów"
+          kicker="Wybierz pupila"
           title="Po co dziś tu jesteś?"
-          sub="Filtruj od razu po typie rzeczy — nie po gatunku."
+          sub="Psy lub koty. Wszystko poza miską."
         />
-        <div className="mt-6 grid grid-cols-2 gap-3.5 sm:grid-cols-3 md:grid-cols-6">
-          {items.map((it) => (
-            <ItemTile
-              key={it.id}
-              href={`/typ/${it.slug}`}
-              icon={it.icon_emoji ?? "·"}
-              label={it.name}
-              count={it.count_cache > 0 ? it.count_cache : undefined}
-              softColorToken={it.soft_color_token}
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {featured.map((s, i) => (
+            <CategoryTile
+              key={s.id}
+              href={`/zwierzaki/${s.slug}`}
+              kind={s.slug === "koty" ? "cat" : "dog"}
+              label={s.name}
+              count={counts[i] > 0 ? counts[i] : undefined}
+              className="py-10"
             />
           ))}
         </div>
@@ -134,9 +126,9 @@ function ItemTilesSkeleton() {
   return (
     <section className="px-6 py-8">
       <div className="mx-auto max-w-6xl">
-        <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 md:grid-cols-6">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <Skeleton key={i} className="h-32 rounded-lg" />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <Skeleton key={i} className="h-44 rounded-lg" />
           ))}
         </div>
       </div>
@@ -145,7 +137,7 @@ function ItemTilesSkeleton() {
 }
 
 async function RecommendedSection() {
-  const products = await getCachedRecommendedProducts(5);
+  const products = await getCachedRecommendedProducts(12);
   if (products.length === 0) return null;
   return (
     <section className="px-6 pt-4 pb-12">
@@ -153,38 +145,42 @@ async function RecommendedSection() {
         <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
           <SectionHead
             kicker="Polecane przez Yoko & Yoshi"
-            title="Tydzień u nas: same dobre wybory"
+            title="W tym tygodniu — same dobre wybory"
             inline
           />
           <Button asChild variant="link">
-            <Link href="/promocje">Zobacz wszystkie polecane →</Link>
+            <Link href="/szukaj">Wszystkie polecane →</Link>
           </Button>
         </div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <Carousel ariaLabel="Polecane produkty">
           {products.map((p) => {
             const primaryImage =
               p.images?.find((i) => i.is_primary) ?? p.images?.[0] ?? null;
             const itemKicker = p.item_types?.[0]?.name ?? null;
             return (
-              <ProductCard
+              <div
                 key={p.id}
-                href={`/produkt/${p.slug}`}
-                kicker={itemKicker}
-                name={p.name}
-                imageUrl={primaryImage?.url}
-                imageAlt={primaryImage?.alt ?? p.name}
-                blurDataUrl={primaryImage?.blur_data_url}
-                price={p.price_pln}
-                oldPrice={p.price_old_pln}
-                recommended={p.recommending_mascot}
-                rating={p.rating}
-                ratingCount={p.rating_count}
-                allegroUrl={p.allegro_url}
-                productId={p.id}
-              />
+                className="w-[260px] shrink-0 snap-start sm:w-[280px]"
+              >
+                <ProductCard
+                  href={`/produkt/${p.slug}`}
+                  kicker={itemKicker}
+                  name={p.name}
+                  imageUrl={primaryImage?.url}
+                  imageAlt={primaryImage?.alt ?? p.name}
+                  blurDataUrl={primaryImage?.blur_data_url}
+                  price={p.price_pln}
+                  oldPrice={p.price_old_pln}
+                  recommended={p.recommending_mascot}
+                  rating={p.rating}
+                  ratingCount={p.rating_count}
+                  allegroUrl={p.allegro_url}
+                  productId={p.id}
+                />
+              </div>
             );
           })}
-        </div>
+        </Carousel>
       </div>
     </section>
   );
@@ -194,9 +190,12 @@ function RecommendedSkeleton() {
   return (
     <section className="px-6 pt-4 pb-12">
       <div className="mx-auto max-w-6xl">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="flex gap-4 overflow-hidden">
           {Array.from({ length: 5 }).map((_, i) => (
-            <Skeleton key={i} className="aspect-[3/4] rounded-lg" />
+            <Skeleton
+              key={i}
+              className="aspect-[3/4] w-[260px] shrink-0 rounded-lg sm:w-[280px]"
+            />
           ))}
         </div>
       </div>
@@ -218,7 +217,7 @@ function ShibaPillar() {
           <YokoSitting size={400} />
         </div>
         <div>
-          <Badge tone="primary">⭐ Specjalność firmy</Badge>
+          <Badge tone="primary">Robimy to</Badge>
           <h2 className="mt-3 mb-3 text-[2.4rem]">
             Masz{" "}
             <em
@@ -230,9 +229,10 @@ function ShibaPillar() {
             ? Mamy dla niej wszystko.
           </h2>
           <p className="text-text-secondary mb-5 text-[1.05rem] leading-relaxed">
-            Trymery i szczotki radzące sobie z podszerstkiem, szarpaki dla
-            mocnych zgryzów, smycze nie do zerwania przez upartego psa — i baza
-            wiedzy, której nie znajdziesz nigdzie indziej.
+            Trymery i szczotki, które dadzą radę z podszerstkiem. Szarpaki nie
+            do zgryzienia w tydzień. Smycze, których nie zerwie najuparciej
+            szarpiący pies. Plus baza wiedzy, której nie znajdziesz w polskim
+            internecie.
           </p>
           <div className="flex flex-wrap gap-3">
             <Button asChild variant="primary">
@@ -241,11 +241,6 @@ function ShibaPillar() {
             <Button asChild variant="ghost">
               <Link href="/poradnik/rasy/shiba-inu">Polecane akcesoria</Link>
             </Button>
-          </div>
-          <div className="mt-6 flex flex-wrap gap-7">
-            <Stat n="180+" l="produktów dla shib" />
-            <Stat n="14" l="artykułów rasowych" />
-            <Stat n="3 240" l="shib w społeczności" />
           </div>
         </div>
       </div>
@@ -276,7 +271,7 @@ async function ArticlesSection() {
               href={`/poradnik/${a.slug}`}
               tag={CATEGORY_LABELS[a.category]}
               title={a.title}
-              read={a.reading_minutes ? `${a.reading_minutes} min` : null}
+              readingMinutes={a.reading_minutes}
             />
           ))}
         </div>
@@ -305,44 +300,6 @@ function ArticlesSkeleton() {
         </div>
       </div>
     </section>
-  );
-}
-
-function ArticleCard({
-  href,
-  tag,
-  title,
-  read,
-}: {
-  href: string;
-  tag: string;
-  title: string;
-  read: string | null;
-}) {
-  return (
-    <Link
-      href={href}
-      className="bg-bg-surface border-border-soft text-text-primary block overflow-hidden rounded-lg border-[1.5px] no-underline"
-    >
-      <div
-        className="relative aspect-[16/10]"
-        style={{
-          background:
-            "linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary-soft) 100%)",
-        }}
-      >
-        <div className="absolute top-3.5 left-3.5">
-          <Badge tone="cream">{tag}</Badge>
-        </div>
-      </div>
-      <div className="p-5">
-        <h3 className="mb-2.5 text-[1.15rem] leading-snug">{title}</h3>
-        <div className="text-text-muted flex justify-between text-[0.82rem]">
-          <span>{read ? `${read} czytania` : "Czytaj poradnik"}</span>
-          <span className="text-accent-cyan font-semibold">Czytaj →</span>
-        </div>
-      </div>
-    </Link>
   );
 }
 

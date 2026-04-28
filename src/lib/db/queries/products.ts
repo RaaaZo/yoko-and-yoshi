@@ -1,11 +1,19 @@
 import { logger } from "@/lib/logger";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/stub";
 import type {
   Product,
   ProductImage,
   ProductFaq,
   ItemType,
 } from "@/types/domain";
+import {
+  MOCK_PRODUCTS,
+  mockProductsForCategoryPath,
+  mockProductsForItemType,
+  mockProductsForSpeciesId,
+  mockSearchProducts,
+} from "../mock";
 
 const PRODUCT_COLUMNS = `
   id, slug, name, brand_id, short_description, full_description,
@@ -16,6 +24,9 @@ const PRODUCT_COLUMNS = `
 ` as const;
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
+  if (!isSupabaseConfigured()) {
+    return MOCK_PRODUCTS.find((p) => p.slug === slug) ?? null;
+  }
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("products")
@@ -51,6 +62,11 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 }
 
 export async function getFeaturedProducts(limit = 5): Promise<Product[]> {
+  if (!isSupabaseConfigured()) {
+    return MOCK_PRODUCTS.filter((p) => p.is_featured)
+      .sort((a, b) => b.sort_score - a.sort_score)
+      .slice(0, limit);
+  }
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("products")
@@ -72,6 +88,11 @@ export async function getFeaturedProducts(limit = 5): Promise<Product[]> {
 }
 
 export async function getRecommendedProducts(limit = 8): Promise<Product[]> {
+  if (!isSupabaseConfigured()) {
+    return MOCK_PRODUCTS.filter((p) => p.is_recommended)
+      .sort((a, b) => b.sort_score - a.sort_score)
+      .slice(0, limit);
+  }
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("products")
@@ -96,6 +117,11 @@ export async function listProductsByItemTypeSlug(
   slug: string,
   limit = 24,
 ): Promise<Product[]> {
+  if (!isSupabaseConfigured()) {
+    return mockProductsForItemType(slug)
+      .sort((a, b) => b.sort_score - a.sort_score)
+      .slice(0, limit);
+  }
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("products")
@@ -120,6 +146,11 @@ export async function listProductsByCategoryPath(
   pathCache: string,
   limit = 24,
 ): Promise<Product[]> {
+  if (!isSupabaseConfigured()) {
+    return mockProductsForCategoryPath(pathCache)
+      .sort((a, b) => b.sort_score - a.sort_score)
+      .slice(0, limit);
+  }
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("categories")
@@ -154,6 +185,11 @@ export async function searchProducts(
   limit = 30,
 ): Promise<Product[]> {
   if (!query.trim()) return [];
+  if (!isSupabaseConfigured()) {
+    return mockSearchProducts(query)
+      .sort((a, b) => b.sort_score - a.sort_score)
+      .slice(0, limit);
+  }
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("products")
@@ -182,6 +218,11 @@ export async function listProductsBySpecies(
   speciesId: string,
   limit = 24,
 ): Promise<Product[]> {
+  if (!isSupabaseConfigured()) {
+    return mockProductsForSpeciesId(speciesId)
+      .sort((a, b) => b.sort_score - a.sort_score)
+      .slice(0, limit);
+  }
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("products")

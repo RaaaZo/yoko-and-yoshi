@@ -1,8 +1,15 @@
 import { logger } from "@/lib/logger";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
-import type { Category, ItemType, Species } from "@/types/domain";
+import { isSupabaseConfigured } from "@/lib/supabase/stub";
+import type { Category, Species } from "@/types/domain";
+import {
+  MOCK_CATEGORIES,
+  MOCK_CATEGORY_PATHS,
+  MOCK_SPECIES,
+} from "../mock";
 
 export async function listSpecies(): Promise<Species[]> {
+  if (!isSupabaseConfigured()) return MOCK_SPECIES;
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("species")
@@ -17,6 +24,9 @@ export async function listSpecies(): Promise<Species[]> {
 }
 
 export async function getSpeciesBySlug(slug: string): Promise<Species | null> {
+  if (!isSupabaseConfigured()) {
+    return MOCK_SPECIES.find((s) => s.slug === slug) ?? null;
+  }
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("species")
@@ -28,43 +38,21 @@ export async function getSpeciesBySlug(slug: string): Promise<Species | null> {
     logger.error({ err: error, slug }, "getSpeciesBySlug failed");
     return null;
   }
+  if (!data) {
+    logger.warn(
+      { slug },
+      "getSpeciesBySlug: slug not found (DB empty or seed not loaded?)",
+    );
+  }
   return (data as unknown as Species) ?? null;
-}
-
-export async function listItemTypes(): Promise<ItemType[]> {
-  const supabase = await getSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("item_types")
-    .select("*")
-    .eq("published", true)
-    .order("sort_order");
-  if (error) {
-    logger.error({ err: error }, "listItemTypes failed");
-    return [];
-  }
-  return (data ?? []) as unknown as ItemType[];
-}
-
-export async function getItemTypeBySlug(
-  slug: string,
-): Promise<ItemType | null> {
-  const supabase = await getSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("item_types")
-    .select("*")
-    .eq("slug", slug)
-    .eq("published", true)
-    .maybeSingle();
-  if (error) {
-    logger.error({ err: error, slug }, "getItemTypeBySlug failed");
-    return null;
-  }
-  return (data as unknown as ItemType) ?? null;
 }
 
 export async function getCategoryByPath(
   path: string,
 ): Promise<Category | null> {
+  if (!isSupabaseConfigured()) {
+    return MOCK_CATEGORIES.find((c) => c.path_cache === path) ?? null;
+  }
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("categories")
@@ -82,6 +70,9 @@ export async function getCategoryByPath(
 export async function listCategoriesForSpecies(
   speciesId: string,
 ): Promise<Category[]> {
+  if (!isSupabaseConfigured()) {
+    return MOCK_CATEGORIES.filter((c) => c.species_id === speciesId);
+  }
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("categories")
@@ -104,6 +95,11 @@ export async function listSubcategories(
   speciesId: string,
   parentId: string | null,
 ): Promise<Category[]> {
+  if (!isSupabaseConfigured()) {
+    return MOCK_CATEGORIES.filter(
+      (c) => c.species_id === speciesId && c.parent_id === parentId,
+    );
+  }
   const supabase = await getSupabaseServerClient();
   let q = supabase
     .from("categories")
@@ -130,6 +126,7 @@ export async function listSubcategories(
 export async function listAllCategoryPaths(): Promise<
   Array<{ path: string; updated_at: string | null }>
 > {
+  if (!isSupabaseConfigured()) return MOCK_CATEGORY_PATHS;
   const supabase = await getSupabaseServerClient();
   const { data, error } = await supabase
     .from("categories")
@@ -149,5 +146,4 @@ export async function listAllCategoryPaths(): Promise<
 }
 
 // See note in queries/products.ts about why unstable_cache is bypassed here.
-export const getCachedItemTypes = listItemTypes;
 export const getCachedSpecies = listSpecies;

@@ -1,15 +1,18 @@
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
-import { Breadcrumbs } from "@/components/brand/breadcrumbs";
+import {
+  Breadcrumbs,
+  type BreadcrumbItem,
+} from "@/components/brand/breadcrumbs";
 import { BadgeRecommended } from "@/components/brand/badge-recommended";
 import { MascotCallout } from "@/components/brand/mascot-callout";
 import { PawDivider } from "@/components/brand/paw-divider";
 import { PhotoPlaceholder } from "@/components/brand/photo-placeholder";
 import { AllegroCTA } from "@/components/product/allegro-cta";
 import { ProductCard } from "@/components/product/product-card";
+import { StarRating } from "@/components/product/star-rating";
 import { Badge } from "@/components/ui/badge";
 import {
   Accordion,
@@ -22,7 +25,9 @@ import {
   getCachedRecommendedProducts,
   getProductBySlug,
 } from "@/lib/db/queries/products";
-import { formatPricePLN } from "@/lib/utils";
+import { getCategoryByPath, getSpeciesBySlug } from "@/lib/db/queries/taxonomy";
+import { capitaliseSlug, formatPricePLN } from "@/lib/utils";
+import type { Product } from "@/types/domain";
 import type { Metadata } from "next";
 
 export const revalidate = 3600;
@@ -70,23 +75,12 @@ export default async function ProductPage({ params }: { params: Params }) {
       : null;
   const itemKicker = product.item_types?.[0]?.name ?? null;
 
+  const breadcrumbs = await buildProductBreadcrumbs(product);
+
   return (
     <article className="px-6 py-8">
       <div className="mx-auto max-w-6xl">
-        <Breadcrumbs
-          items={[
-            { label: "Start", href: "/" },
-            ...(itemKicker
-              ? [
-                  {
-                    label: itemKicker,
-                    href: `/typ/${product.item_types?.[0]?.slug}`,
-                  },
-                ]
-              : []),
-            { label: product.name },
-          ]}
-        />
+        <Breadcrumbs items={breadcrumbs} />
 
         <ProductJsonLd product={product} imageUrl={primaryImage?.url ?? null} />
 
@@ -149,9 +143,7 @@ export default async function ProductPage({ params }: { params: Params }) {
 
             {product.rating && (
               <div className="text-text-secondary flex items-center gap-2 text-[0.95rem]">
-                <span className="text-lg text-[color:var(--color-secondary)]">
-                  ★★★★★
-                </span>
+                <StarRating rating={product.rating} className="text-lg" />
                 <span className="font-semibold">{product.rating}</span>
                 <span>({product.rating_count} ocen)</span>
               </div>
@@ -169,7 +161,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                 </span>
               )}
               <span className="text-text-secondary ml-auto text-[0.85rem]">
-                Cena z Allegro · aktualizowana automatycznie
+                Cena z Allegro · sprawdzamy codziennie
               </span>
             </div>
 
@@ -231,18 +223,6 @@ export default async function ProductPage({ params }: { params: Params }) {
           <RelatedSection productId={product.id} />
         </Suspense>
 
-        <p className="text-text-muted mt-12 text-[0.78rem]">
-          Linki z przyciskiem &quot;Zobacz na Allegro&quot; to linki
-          partnerskie. Cena dla Ciebie się nie zmienia, my dostajemy małą
-          prowizję. Czytaj{" "}
-          <Link
-            href="/informacja-affiliate"
-            className="text-accent-cyan underline"
-          >
-            informację affiliate
-          </Link>
-          .
-        </p>
       </div>
     </article>
   );
@@ -282,6 +262,64 @@ async function RelatedSection({ productId }: { productId: string }) {
       </div>
     </section>
   );
+}
+
+/**
+ * Build breadcrumbs for a product page.
+ *
+ * Strategy: take the product's first category_path (e.g. "psy/zabawki"),
+ * split into segments and resolve each segment to a {label, href} pair.
+ * The first segment maps to a Species (slug → name). Subsequent segments
+ * are categories — we resolve them via getCategoryByPath() to use the
+ * actual display name instead of capitalising the slug.
+ *
+ * Falls back to just `Start › {nazwa}` if the product has no category_paths
+ * (e.g. data from a partially-populated DB).
+ */
+async function buildProductBreadcrumbs(
+  product: Product,
+): Promise<BreadcrumbItem[]> {
+  const items: BreadcrumbItem[] = [{ label: "Start", href: "/" }];
+
+  const primaryPath = product.category_paths?.[0];
+  if (!primaryPath) {
+    items.push({ label: product.name });
+    return items;
+  }
+
+  const segments = primaryPath.split("/").filter(Boolean);
+  if (segments.length === 0) {
+    items.push({ label: product.name });
+    return items;
+  }
+
+  // Fetch species + every intermediate category in parallel — there's no
+  // dependency between these lookups, so we don't sequentialise round-trips.
+  const speciesSlug = segments[0];
+  const categoryPaths = segments
+    .slice(1)
+    .map((_, i) => segments.slice(0, i + 2).join("/"));
+  const [speciesEntry, ...categories] = await Promise.all([
+    getSpeciesBySlug(speciesSlug),
+    ...categoryPaths.map((p) => getCategoryByPath(p)),
+  ]);
+
+  if (speciesEntry) {
+    items.push({
+      label: speciesEntry.name,
+      href: `/zwierzaki/${speciesEntry.slug}`,
+    });
+  }
+
+  segments.slice(1).forEach((segment, i) => {
+    items.push({
+      label: categories[i]?.name ?? capitaliseSlug(segment),
+      href: `/zwierzaki/${categoryPaths[i]}`,
+    });
+  });
+
+  items.push({ label: product.name });
+  return items;
 }
 
 function RelatedSkeleton() {

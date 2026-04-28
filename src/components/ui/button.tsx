@@ -25,8 +25,8 @@ const buttonVariants = cva(
           "bg-transparent text-[color:var(--color-text-primary)] border-[color:var(--color-border-soft)] hover:bg-[color:var(--color-bg-warm)]",
         link: "bg-transparent text-[color:var(--color-accent-cyan)] shadow-none hover:underline underline-offset-4 px-1 py-2 min-h-0",
         cyan: "bg-[color:var(--color-accent-cyan)] text-[color:var(--color-text-inverse)] hover:brightness-95",
-        affiliate:
-          "bg-[color:var(--color-cta-affiliate)] text-[color:var(--color-text-inverse)] shadow-md hover:bg-[color:var(--color-cta-affiliate-hover)]",
+        allegro:
+          "bg-[color:var(--color-cta-allegro)] text-[color:var(--color-text-inverse)] shadow-md hover:bg-[color:var(--color-cta-allegro-hover)]",
         destructive:
           "bg-[color:var(--color-danger)]/10 text-[color:var(--color-danger)] border-[color:var(--color-danger)]/30 hover:bg-[color:var(--color-danger)]/20",
         // shadcn compatibility aliases — auto-generated components reference these

@@ -4,22 +4,22 @@ import { listArticles, listBreeds } from "@/lib/db/queries/content";
 import {
   listAllCategoryPaths,
   listSpecies,
-  listItemTypes,
 } from "@/lib/db/queries/taxonomy";
+import { isSupabaseConfigured } from "@/lib/supabase/stub";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { MOCK_PRODUCTS } from "@/lib/db/mock";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://yokoyoshi.pl";
 
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [products, articles, breeds, species, itemTypes, categoryPaths] =
+  const [products, articles, breeds, species, categoryPaths] =
     await Promise.all([
       listAllProductSlugs(),
       listArticles({ limit: 5000 }),
       listBreeds(),
       listSpecies(),
-      listItemTypes(),
       listAllCategoryPaths(),
     ]);
 
@@ -30,9 +30,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/poradnik",
     "/o-nas",
     "/kontakt",
-    "/newsletter",
     "/promocje",
-    "/informacja-affiliate",
+    "/zwierzaki",
     "/polityka-prywatnosci",
     "/regulamin",
     "/polityka-cookies",
@@ -58,13 +57,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: updated_at ? new Date(updated_at) : now,
       changeFrequency: "weekly" as const,
       priority: path.split("/").length === 2 ? 0.7 : 0.6,
-    })),
-    // Item-type listings (cross-species)
-    ...itemTypes.map((it) => ({
-      url: `${SITE}/typ/${it.slug}`,
-      lastModified: now,
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
     })),
     // Products
     ...products.map(({ slug, updated_at }) => ({
@@ -93,6 +85,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 async function listAllProductSlugs(): Promise<
   Array<{ slug: string; updated_at: string | null }>
 > {
+  if (!isSupabaseConfigured()) {
+    return MOCK_PRODUCTS.map((p) => ({ slug: p.slug, updated_at: null }));
+  }
   const supabase = await getSupabaseServerClient();
   const { data } = await supabase
     .from("products")

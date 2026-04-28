@@ -22,11 +22,12 @@ export default function AboutPage() {
               Cześć — to my, <span className="amp">&</span> nasze shiby.
             </h1>
             <p className="text-text-secondary mb-4 text-lg leading-relaxed">
-              Yoko & Yoshi to autorski projekt, który polecił sam siebie. Sklep
-              stworzony przez opiekunów dwóch shib, którzy przetestowali tysiąc
-              produktów i wybrali tylko te dobre. Jeśli kupisz coś przez nasz
-              link, dostaniemy małą prowizję — to jak postawienie nam kawy. Cena
-              dla Ciebie się nie zmienia.
+              Yoko & Yoshi to my — dwoje ludzi i dwie shiby. Pisaliśmy
+              najpierw na własnym blogu, potem ludzie zaczęli pytać
+              &bdquo;no dobra, ale co kupić&rdquo; — więc zaczęliśmy
+              polecać. Teraz jest tego pełen sklep. Klikasz, kupujesz na
+              Allegro u sprawdzonego sprzedawcy, my dostajemy uśmiech, że
+              ktoś nam zaufał.
             </p>
           </div>
           <div
@@ -40,16 +41,17 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <section id="zwierzaki" className="mt-16">
+        <section id="zwierzaki" className="mt-16 scroll-mt-24">
           <h2 className="mb-5">Poznaj zespół</h2>
           <div className="grid gap-5 md:grid-cols-2">
-            <MascotCallout speaker="yoko" title="Yoko — rudy szef ekipy">
-              Energiczny, ciekawski, ekspresyjny. Rekomenduje aktywności,
-              zabawki i wszystko, co wymaga ruchu.
+            <MascotCallout speaker="yoko" title="Yoko — ruda królowa wygody">
+              Leniwa, zadowolona, kocha drzemki w słońcu. Rekomenduje
+              posłania, miski, pielęgnację — wszystko, co wysyła sygnał:
+              zostań chwilę dłużej.
             </MascotCallout>
-            <MascotCallout speaker="yoshi" title="Yoshi — kremowy filozof">
-              Łagodny, marzycielski, spokojny. Rekomenduje karmę, posłania,
-              pielęgnację i wszystko, co wymaga troski.
+            <MascotCallout speaker="yoshi" title="Yoshi — kremowy szef ekipy">
+              Energiczny, czujny, ciągle w ruchu. Rekomenduje szarpaki,
+              piłki, smycze i wszystko, co wymaga sprintu.
             </MascotCallout>
           </div>
         </section>
@@ -68,7 +70,7 @@ export default function AboutPage() {
             nie&quot;.
           </li>
           <li>
-            Klikasz &quot;Zobacz na Allegro&quot;, kupujesz u sprawdzonego
+            Klikasz &quot;Kup na Allegro&quot;, kupujesz u sprawdzonego
             sprzedawcy, dostajesz pod drzwi.
           </li>
           <li>

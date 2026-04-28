@@ -47,12 +47,6 @@ export const adminLoginLimiter = buildRateLimiter({
   window: "15 m",
 });
 
-export const newsletterSubscribeLimiter = buildRateLimiter({
-  prefix: "newsletter",
-  limit: 3,
-  window: "1 h",
-});
-
 export const contactFormLimiter = buildRateLimiter({
   prefix: "contact",
   limit: 3,

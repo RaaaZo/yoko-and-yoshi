@@ -2,8 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Breadcrumbs } from "@/components/brand/breadcrumbs";
+import { Carousel } from "@/components/brand/carousel";
 import { YokoSitting, type SpeciesKind } from "@/components/brand/icons";
-import { NewsletterBox } from "@/components/brand/newsletter-box";
 import { PawDivider } from "@/components/brand/paw-divider";
 import { CategoryTile } from "@/components/product/category-tile";
 import { ProductCard } from "@/components/product/product-card";
@@ -15,6 +15,7 @@ import {
   listSpecies,
   listSubcategories,
 } from "@/lib/db/queries/taxonomy";
+import { speciesDativus } from "@/lib/utils";
 import type { Metadata } from "next";
 
 export const revalidate = 3600;
@@ -69,7 +70,7 @@ export default async function SpeciesHubPage({ params }: { params: Params }) {
         <Breadcrumbs
           items={[
             { label: "Start", href: "/" },
-            { label: "Zwierzaki", href: "/zwierzaki/psy" },
+            { label: "Zwierzaki", href: "/zwierzaki" },
             { label: data.name },
           ]}
         />
@@ -96,16 +97,22 @@ export default async function SpeciesHubPage({ params }: { params: Params }) {
         {topCategories.length > 0 && (
           <section className="mb-12">
             <h2 className="mb-5">Kategorie</h2>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+            <Carousel ariaLabel={`Kategorie: ${data.name}`}>
               {topCategories.map((cat) => (
-                <CategoryTile
+                <div
                   key={cat.id}
-                  href={`/zwierzaki/${cat.path_cache}`}
-                  kind={iconKind}
-                  label={cat.name}
-                />
+                  className="flex min-w-[180px] flex-1 snap-start sm:min-w-[200px]"
+                >
+                  <CategoryTile
+                    href={`/zwierzaki/${cat.path_cache}`}
+                    categorySlug={cat.slug}
+                    fallbackKind={iconKind}
+                    label={cat.name}
+                    className="flex-1"
+                  />
+                </div>
               ))}
-            </div>
+            </Carousel>
           </section>
         )}
 
@@ -118,7 +125,7 @@ export default async function SpeciesHubPage({ params }: { params: Params }) {
                 <div className="mb-1.5 text-[0.78rem] font-bold tracking-[0.14em] text-[color:var(--color-accent-coral)] uppercase">
                   Polecane przez Yoko & Yoshi
                 </div>
-                <h2>Najlepsze dla {data.name.toLowerCase()}</h2>
+                <h2>Co polecamy {speciesDativus(data.slug)}</h2>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
@@ -160,11 +167,11 @@ export default async function SpeciesHubPage({ params }: { params: Params }) {
               <YokoSitting size={300} />
             </div>
             <div>
-              <Badge tone="primary">⭐ Specjalność firmy</Badge>
+              <Badge tone="primary">Robimy to</Badge>
               <h2 className="mt-3 mb-3 text-[2rem]">Hub rasowy: Shiba Inu</h2>
               <p className="text-text-secondary mb-5 leading-relaxed">
-                Pełny przewodnik po rasie + polecane akcesoria sprawdzone u shib
-                pierwszej krwi.
+                Pełny przewodnik po rasie. Plus akcesoria sprawdzone u Yoko
+                i Yoshi.
               </p>
               <Button asChild variant="primary">
                 <Link href="/poradnik/rasy/shiba-inu">Zobacz przewodnik</Link>
@@ -172,8 +179,6 @@ export default async function SpeciesHubPage({ params }: { params: Params }) {
             </div>
           </section>
         )}
-
-        <NewsletterBox />
       </div>
     </article>
   );

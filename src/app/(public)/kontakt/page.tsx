@@ -19,8 +19,8 @@ export default function ContactPage() {
           Powiedz nam coś.
         </h1>
         <p className="text-text-secondary mb-8 text-lg leading-relaxed">
-          Pytanie o produkt, propozycja współpracy, zgłoszenie błędu — piszemy z
-          reguły tego samego dnia.
+          Pytanie o produkt, propozycja współpracy, zgłoszenie błędu —
+          odpisujemy z reguły tego samego dnia.
         </p>
         <ContactForm />
       </div>

@@ -2,10 +2,12 @@ import { YokoFace } from "@/components/brand/icons";
 
 export function EmptyState({
   title = "Nic nie znaleźliśmy",
-  subtitle = "Spróbuj innych filtrów lub zajrzyj do innej kategorii.",
+  subtitle = "Spróbuj innych filtrów albo zajrzyj gdzie indziej.",
+  action,
 }: {
   title?: string;
   subtitle?: string;
+  action?: React.ReactNode;
 }) {
   return (
     <div className="bg-bg-elevated border-border-soft rounded-lg border-2 border-dashed p-12 text-center">
@@ -21,6 +23,7 @@ export function EmptyState({
       </div>
       <h3 className="mb-1.5">{title}</h3>
       <p className="text-text-secondary">{subtitle}</p>
+      {action ? <div className="mt-5">{action}</div> : null}
     </div>
   );
 }
