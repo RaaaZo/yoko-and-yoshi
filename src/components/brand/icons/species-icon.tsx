@@ -37,23 +37,45 @@ export function SpeciesIcon({
     case "dog":
       return (
         <svg {...props} aria-label="Pies">
-          <path d="M14 22 L10 14 L20 18 Z M50 22 L54 14 L44 18 Z" />
-          <ellipse cx="32" cy="34" rx="18" ry="16" />
+          {/* floppy drooping ears */}
+          <path d="M18 22 Q10 24 10 34 Q10 40 17 38" />
+          <path d="M46 22 Q54 24 54 34 Q54 40 47 38" />
+          {/* round face */}
+          <circle cx="32" cy="34" r="14" />
+          {/* muzzle (lower lighter shape) */}
+          <ellipse cx="32" cy="40" rx="7" ry="4" />
+          {/* nose */}
+          <ellipse cx="32" cy="37" rx="2" ry="1.5" fill={color} />
+          {/* smile */}
+          <path d="M28 41 Q32 44 36 41" />
+          {/* eyes */}
           <circle cx="26" cy="32" r="1.5" fill={color} />
           <circle cx="38" cy="32" r="1.5" fill={color} />
-          <path d="M28 40 Q32 43 36 40" />
-          <ellipse cx="32" cy="38" rx="2" ry="1.5" fill={color} />
         </svg>
       );
     case "cat":
       return (
         <svg {...props} aria-label="Kot">
-          <path d="M12 16 L14 28 M52 16 L50 28" />
-          <ellipse cx="32" cy="34" rx="18" ry="15" />
-          <circle cx="26" cy="32" r="1.5" fill={color} />
-          <circle cx="38" cy="32" r="1.5" fill={color} />
-          <path d="M30 39 L32 41 L34 39" />
-          <path d="M20 35 L14 33 M20 37 L14 38 M44 35 L50 33 M44 37 L50 38" />
+          {/* tall pointy ears */}
+          <path d="M14 30 L20 12 L26 28" />
+          <path d="M38 28 L44 12 L50 30" />
+          {/* inner ear lines */}
+          <path d="M19 24 L20 18 L21 24" />
+          <path d="M43 24 L44 18 L45 24" />
+          {/* face — slightly heart-shaped at the bottom */}
+          <path d="M16 30 Q14 42 22 47 Q32 52 42 47 Q50 42 48 30" />
+          {/* eyes — almond */}
+          <ellipse cx="26" cy="34" rx="2" ry="1.5" fill={color} />
+          <ellipse cx="38" cy="34" rx="2" ry="1.5" fill={color} />
+          {/* nose — small downward triangle */}
+          <path d="M30 39 L34 39 L32 42 Z" fill={color} />
+          {/* mouth */}
+          <path d="M30 43 Q32 45 34 43" />
+          {/* whiskers */}
+          <line x1="20" y1="38" x2="10" y2="36" />
+          <line x1="20" y1="40" x2="10" y2="42" />
+          <line x1="44" y1="38" x2="54" y2="36" />
+          <line x1="44" y1="40" x2="54" y2="42" />
         </svg>
       );
     case "rodent":

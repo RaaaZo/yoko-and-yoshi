@@ -112,8 +112,8 @@ export function ProductCard({
         <div className="h-5" aria-hidden />
       )}
 
-      <div className="mt-auto flex items-baseline justify-between">
-        <div>
+      <div className="mt-auto flex flex-wrap items-baseline justify-between gap-2">
+        <div className="min-w-0">
           {formattedOldPrice && (
             <span className="text-text-muted mr-1.5 text-[0.78rem] line-through">
               {formattedOldPrice}
@@ -127,7 +127,7 @@ export function ProductCard({
         </div>
         {allegroUrl && (
           <span
-            className="font-display inline-flex items-center gap-1 rounded-full bg-[color:var(--color-cta-allegro)] px-3 py-1.5 text-[0.78rem] font-semibold text-white"
+            className="font-display inline-flex shrink-0 items-center gap-0.5 rounded-full bg-[color:var(--color-cta-allegro)] px-2.5 py-1 text-[0.72rem] font-semibold text-white sm:gap-1 sm:px-3 sm:py-1.5 sm:text-[0.78rem]"
             data-product-id={productId}
           >
             Allegro <span aria-hidden>↗</span>

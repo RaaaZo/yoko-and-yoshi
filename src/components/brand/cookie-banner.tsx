@@ -49,9 +49,9 @@ export function CookieBanner() {
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 px-4 pb-4">
-      <div className="bg-bg-surface border-border-default mx-auto flex max-w-3xl flex-col gap-4 rounded-lg border-2 border-dashed p-5 shadow-lg md:flex-row md:items-center">
-        <div className="text-text-primary flex-1 text-[0.92rem] leading-relaxed">
+    <div className="fixed inset-x-0 bottom-0 z-40 w-full px-4 pb-4">
+      <div className="bg-bg-surface border-border-default mx-auto flex w-full min-w-0 max-w-3xl flex-col gap-4 rounded-lg border-2 border-dashed p-4 shadow-lg sm:p-5 md:flex-row md:items-center">
+        <div className="text-text-primary min-w-0 flex-1 text-[0.92rem] leading-relaxed">
           Używamy ciasteczek, by mierzyć ruch i ulepszać polecenia. Czytaj{" "}
           <Link href="/polityka-cookies" className="text-accent-cyan underline">
             politykę cookies
@@ -65,15 +65,21 @@ export function CookieBanner() {
           </Link>
           .
         </div>
-        <div className="flex shrink-0 gap-2">
+        <div className="flex flex-wrap gap-2 md:shrink-0">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => decide("essentials")}
+            className="flex-1 md:flex-none"
           >
             Tylko niezbędne
           </Button>
-          <Button variant="primary" size="sm" onClick={() => decide("accept")}>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => decide("accept")}
+            className="flex-1 md:flex-none"
+          >
             Akceptuję
           </Button>
         </div>

@@ -41,7 +41,11 @@ export default async function SearchPage({
   if (sp.for === "shiba") permanentRedirect("/poradnik/rasy/shiba-inu");
 
   const query = (sp.q ?? "").trim();
-  const species = await getCachedSpecies();
+  // Same featured set as /zwierzaki landing — keeps the species
+  // discovery row consistent across surfaces.
+  const FEATURED_SLUGS = new Set(["psy", "koty"]);
+  const allSpecies = await getCachedSpecies();
+  const species = allSpecies.filter((s) => FEATURED_SLUGS.has(s.slug));
   const products = query ? await searchProducts(query, 60) : [];
 
   return (
@@ -59,7 +63,7 @@ export default async function SearchPage({
             name="q"
             type="search"
             defaultValue={query}
-            placeholder="Szukaj zabawek, smyczy, trymerów…"
+            placeholder="Szukaj produktów…"
             className="min-w-0 flex-1"
           />
           <Button type="submit" variant="primary">

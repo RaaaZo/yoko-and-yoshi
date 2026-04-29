@@ -7,7 +7,7 @@ const COLUMNS: Array<{ heading: string; links: Array<[string, string]> }> = [
     links: [
       ["Psy", "/zwierzaki/psy"],
       ["Koty", "/zwierzaki/koty"],
-      ["Inne zwierzaki", "/zwierzaki"],
+      ["Wszystkie zwierzaki", "/zwierzaki"],
       ["Promocje", "/promocje"],
     ],
   },
@@ -21,9 +21,20 @@ const COLUMNS: Array<{ heading: string; links: Array<[string, string]> }> = [
     ],
   },
   {
+    heading: "Narzędzia",
+    links: [
+      ["Quiz: dobierz zabawkę", "/quiz/zabawka"],
+      ["Kalkulator rozmiaru", "/kalkulator-rozmiaru"],
+      ["Kalkulator wieku", "/kalkulator-wieku"],
+      ["Kalendarz pielęgnacji", "/kalendarz-pielegnacji"],
+      ["Starter pack", "/starter-pack"],
+    ],
+  },
+  {
     heading: "O nas",
     links: [
       ["Kim jesteśmy", "/o-nas"],
+      ["Pomoc / FAQ", "/pomoc"],
       ["Kontakt", "/kontakt"],
     ],
   },
@@ -32,7 +43,7 @@ const COLUMNS: Array<{ heading: string; links: Array<[string, string]> }> = [
 export function Footer() {
   return (
     <footer className="bg-[color:var(--color-text-primary)] px-6 pt-12 pb-6 text-[#fbf3e7]">
-      <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
         <div>
           <div className="mb-3 flex items-center gap-2.5">
             <Link

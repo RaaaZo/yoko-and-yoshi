@@ -23,7 +23,7 @@ export default async function PromosPage() {
   return (
     <section className="px-6 py-10">
       <div className="mx-auto max-w-6xl">
-        <Badge tone="new">🔥 Promocje</Badge>
+        <Badge tone="new">Promocje</Badge>
         <h1 className="mt-3 mb-3">Aktualne przeceny</h1>
         <p className="text-text-secondary mb-8 max-w-2xl text-lg">
           Wybrane produkty taniej niż zwykle. Sprawdzamy ceny u sprzedawców

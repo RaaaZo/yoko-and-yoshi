@@ -13,9 +13,9 @@ import {
 } from "@/components/ui/sheet";
 
 const SHOP_LINKS = [
-  ["🐕 Psy", "/zwierzaki/psy"],
-  ["🐈 Koty", "/zwierzaki/koty"],
-  ["🔥 Promocje", "/promocje"],
+  ["Psy", "/zwierzaki/psy"],
+  ["Koty", "/zwierzaki/koty"],
+  ["Promocje", "/promocje"],
 ];
 
 const WORLD_LINKS = [
@@ -24,9 +24,18 @@ const WORLD_LINKS = [
   ["Pielęgnacja", "/poradnik?cat=pielegnacja"],
 ];
 
+const TOOL_LINKS = [
+  ["Quiz: dobierz zabawkę", "/quiz/zabawka"],
+  ["Kalkulator rozmiaru", "/kalkulator-rozmiaru"],
+  ["Kalkulator wieku", "/kalkulator-wieku"],
+  ["Kalendarz pielęgnacji", "/kalendarz-pielegnacji"],
+  ["Starter pack", "/starter-pack"],
+];
+
 const ABOUT_LINKS = [
   ["Kim jesteśmy", "/o-nas"],
   ["Yoko & Yoshi", "/o-nas#zwierzaki"],
+  ["Pomoc / FAQ", "/pomoc"],
   ["Kontakt", "/kontakt"],
 ];
 
@@ -112,6 +121,19 @@ export function MobileMenuTrigger() {
           </MenuSection>
           <MenuSection title="Świat shib">
             {WORLD_LINKS.map(([label, href]) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setOpen(false)}
+                className="font-display text-text-primary flex items-center gap-2.5 rounded-md px-3.5 py-3 text-[1rem] no-underline"
+              >
+                <span>{label}</span>
+                <span className="text-text-muted ml-auto text-[1.1rem]">›</span>
+              </Link>
+            ))}
+          </MenuSection>
+          <MenuSection title="Narzędzia">
+            {TOOL_LINKS.map(([label, href]) => (
               <Link
                 key={href}
                 href={href}

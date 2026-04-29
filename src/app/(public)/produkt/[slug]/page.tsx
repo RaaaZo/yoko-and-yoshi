@@ -318,8 +318,15 @@ async function buildProductBreadcrumbs(
     });
   });
 
-  items.push({ label: product.name });
+  // Truncate long product names so the breadcrumb stays on a single
+  // line on phones (the H1 below already shows the full name).
+  items.push({ label: truncate(product.name, 32) });
   return items;
+}
+
+function truncate(s: string, max: number): string {
+  if (s.length <= max) return s;
+  return s.slice(0, max - 1).trimEnd() + "…";
 }
 
 function RelatedSkeleton() {

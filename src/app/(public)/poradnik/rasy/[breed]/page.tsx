@@ -44,7 +44,7 @@ export default async function BreedPage({ params }: { params: Params }) {
         />
 
         <div className="mt-6 mb-3">
-          <Badge tone="primary">⭐ Hub rasowy</Badge>
+          <Badge tone="primary">Hub rasowy</Badge>
         </div>
 
         <h1 className="mb-4 text-[3rem] leading-tight">{data.name}</h1>
